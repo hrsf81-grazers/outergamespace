@@ -53,14 +53,50 @@ class App extends React.Component {
     this.socketClientInterface.removeListenersForPlayerEvents();
   }
 
-  handleLogin(username, password) {
-    console.log('Logging in...', username);
-    this.setState({
-      username: username,
-      password: password,
-      // Authentication routing should occur here, instantly routing to lobby is for testing only
-      screen: 'lobby'
-    });
+  handleLogin(username, password, mode) {
+    if (mode === 'register') {
+      axios.post('/register', { username, password })
+        .then(response => response.status)
+        .then(() => {
+          console.log('Logging in...', username);
+          this.setState({
+            username,
+            screen: 'lobby'
+          });
+        })
+        .catch((err) => {
+          alert('That username already exists');
+          console.error(err);
+        });
+    } else if (mode === 'login') {
+      axios.post('/login', { username, password })
+        .then(response => response.data.isValidPass)
+        .then((isValidPass) => {
+          if (isValidPass) {
+            console.log('Logging in...', username);
+            this.setState({
+              username,
+              screen: 'lobby'
+            });
+          } else {
+            alert('You entered the wrong password');
+            this.setState({
+              username: '',
+              screen: 'front'
+            });
+          }
+        })
+        .catch((err) => {
+          alert('That user does not exist');
+          console.error(err);
+        });
+    } else {
+      console.log('Logging in...', username);
+      this.setState({
+        username,
+        screen: 'lobby'
+      });
+    }
   }
 
   setScreen(screen) {
@@ -107,7 +143,10 @@ class App extends React.Component {
         }
       }
     });
-    
+  }
+
+  createGame() {
+    this.setScreen('host');
   }
 
   joinGame(timePerQuestion) {
@@ -161,7 +200,16 @@ class App extends React.Component {
     if (screen === 'front') {
       return <FrontPage handleLogin={this.handleLogin}/>;
     } else if (screen === 'lobby') {
-      return <Lobby username={this.state.username}/>
+      return (
+        <Lobby
+          username={this.state.username}
+          createGame={this.createGame}
+          joinGame={this.joinGame}
+          socketClientInterface={this.socketClientInterface}
+        />
+      );
+    } else if (screen === 'host') {
+      return <Host username={this.state.username} />;
     } else if (screen === 'join') {
       return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {
