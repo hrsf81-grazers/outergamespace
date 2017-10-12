@@ -70,5 +70,50 @@ db.getUser = (name) => {
   });
 };
 
+db.getAllUsers = () => {
+  const queryString = `
+    SELECT * FROM users
+  `;
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        connection.release();
+      } else {
+        connection.query(queryString, (error, results) => {
+          if (err) {
+            reject(err);
+            connection.release();
+          } else {
+            resolve(results);
+            connection.release();
+          }
+        });
+      }
+    });
+  });
+};
+
+db.addGame = (game) => {
+  const { roomId, username, noOfQuestions, timePerQuestion, maxPlayers } = game;
+  const queryString = `
+    INSERT INTO games
+    (room_id, host_username, num_questions, time_per_question, max_players, num_players, is_started)
+    VALUES
+    ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers}, 0, 0)
+ `;
+  return executeQuery(queryString);
+};
+
+db.getGames = () => {
+  const queryString = 'SELECT * FROM games WHERE is_started = 0';
+  return executeQuery(queryString);
+};
+
+db.removeGame = (roomId) => {
+  const queryString = `DELETE FROM games WHERE room_id = '${roomId}'`;
+  return executeQuery(queryString);
+};
+
 /** exports a database connection object */
 module.exports = db;
