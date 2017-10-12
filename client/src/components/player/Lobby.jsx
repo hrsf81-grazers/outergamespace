@@ -54,7 +54,7 @@ class Lobby extends React.Component {
         gamePanelRender: 'animated slideInRight',
         leaderboardRender: 'animated slideInLeft'
       });
-    }
+    });
   }
 
   joinGame(roomId) {
