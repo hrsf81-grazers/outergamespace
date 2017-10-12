@@ -16,7 +16,10 @@ class App extends React.Component {
       question: '',
       answers: [],
       username: '',
-      password: ''
+      password: '',
+      // visibilility states for animation renders
+      triviaCardRender: 'invisible',
+      textCardRender: 'invisible',
     };
 
     /* SOCKET CLIENT INTERFACE */
@@ -61,7 +64,26 @@ class App extends React.Component {
   }
 
   setScreen(screen) {
-    this.setState({ screen });
+    this.setState((state, props) => {
+      if (state.screen === 'question' && screen !== 'information') {
+        return {
+          triviaCardRender: 'animated slideOutRight',
+          informationRender: 'animated slideInLeft',
+          screen: screen
+        }
+      } else if (state.screen === 'information' && screen === 'question') {
+        return {
+          informationRender: 'animated slideOutRight',
+          triviaCardRender: 'animated slideInLeft',
+          screen: screen
+        }
+      } else {
+        return {  
+          screen: screen
+        }
+      }
+    });
+    
   }
 
   joinGame(timePerQuestion) {
@@ -120,6 +142,8 @@ class App extends React.Component {
     } else if (screen === 'question') {
       return (
         <TriviaCard
+          visibility={this.state.triviaCardRender}
+          screen={screen}
           question={question}
           answers={answers}
           setScreen={this.setScreen}
