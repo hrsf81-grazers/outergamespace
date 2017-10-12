@@ -127,7 +127,12 @@ db.addGame = (game) => {
 };
 
 db.getGames = () => {
-  const queryString = 'SELECT * FROM games WHERE is_started = 0';
+  const queryString = 'SELECT * FROM games WHERE is_started = 0 AND num_players < max_players';
+  return executeQuery(queryString);
+};
+
+db.updateGameStart = (roomId) => {
+  const queryString = `UPDATE games SET is_started = 1 WHERE room_id = '${roomId}'`;
   return executeQuery(queryString);
 };
 

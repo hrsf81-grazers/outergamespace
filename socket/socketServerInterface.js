@@ -121,8 +121,15 @@ class SocketServerInterface {
     if (game.hasNoPlayers()) {
       callback('There are no players in the room');
     } else {
-      callback(null);
-      this.emitNextQuestion(socket);
+      // callback(null);
+      // this.emitNextQuestion(socket);
+      const roomId = getRoom(socket);
+      db.updateGameStart(roomId)
+        .then(() => {
+          callback(null);
+          this.emitNextQuestion(socket);
+        })
+        .catch(console.error);
     }
   }
 
