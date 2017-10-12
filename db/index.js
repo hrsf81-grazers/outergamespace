@@ -18,27 +18,6 @@ const pool = mysql.createPool(databaseQueryString);
 
 const db = {};
 
-const executeQuery = queryString =>
-  new Promise((resolve, reject) => {
-    pool.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        connection.release();
-      } else {
-        connection.query(queryString, (error, results) => {
-          if (err) {
-            reject(err);
-            connection.release();
-          } else {
-            resolve(results);
-            connection.release();
-          }
-        });
-      }
-    });
-  })
-    .catch(console.error);
-
 db.storeUser = (name, hash) => {
   const queryString = `
     INSERT INTO users

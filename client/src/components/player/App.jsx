@@ -1,22 +1,25 @@
 import React from 'react';
-import axios from 'axios';
 import Join from './Join';
+import TriviaCard from './TriviaCard';
 import Question from './Question';
 import TextScreen from './TextScreen';
 import FrontPage from './FrontPage';
 import Lobby from './Lobby';
-import Host from '../presenter/Host';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      screen: 'front',
+      screen: 'join',
       timePerQuestion: 0,
       question: '',
       answers: [],
-      username: ''
+      username: '',
+      // visibilility states for animation renders
+      triviaCardRender: 'invisible',
+      informationRender: 'invisible',
+      informationType: ''
     };
 
     /* SOCKET CLIENT INTERFACE */
@@ -25,7 +28,6 @@ class App extends React.Component {
     /* METHOD BINDING */
     this.handleLogin = this.handleLogin.bind(this);
     this.setScreen = this.setScreen.bind(this);
-    this.createGame = this.createGame.bind(this);
     this.joinGame = this.joinGame.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
@@ -49,10 +51,6 @@ class App extends React.Component {
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
     this.socketClientInterface.removeListenersForPlayerEvents();
-  }
-
-  setScreen(screen) {
-    this.setState({ screen });
   }
 
   handleLogin(username, password, mode) {
@@ -101,13 +99,62 @@ class App extends React.Component {
     }
   }
 
+  setScreen(screen) {
+    this.setState((state, props) => {
+      if (state.screen === 'question' && screen !== 'information') {
+        return {
+          triviaCardRender: 'animated slideOutRight',
+          informationRender: 'animated slideInLeft',
+          screen: screen
+        }
+      } else if (state.screen === 'information' && screen === 'question') {
+        return {
+          informationRender: 'animated slideOutRight',
+          triviaCardRender: 'animated slideInLeft',
+          screen: screen
+        }
+      } else if (screen === 'information') {
+        return {
+          informationRender: 'animated slideInLeft',
+          screen: screen
+        }
+      } else if (screen === 'answered') {
+        return {
+          triviaCardRender: 'animated slideOutRight',
+          informationRender: 'animated slideInLeft',
+          informationType: 'answered',
+          screen: 'information'
+        }
+      } else if (screen === 'roundScores') {
+        return {
+          triviaCardRender: 'animated slideOutRight',
+          informationRender: 'animated slideInLeft',
+          informationType: 'roundScores',
+          screen: 'information'
+        } 
+      } else if (screen === 'finalScores') {
+        return {
+          // TODO change this return object
+          screen: screen
+        }
+      } else {
+        return {  
+          screen: screen
+        }
+      }
+    });
+  }
+
   createGame() {
     this.setScreen('host');
   }
 
   joinGame(timePerQuestion) {
-    this.setState({ timePerQuestion });
-    this.setScreen('wait');
+    this.setState({ 
+      timePerQuestion,
+      informationType: 'wait'
+    });
+    this.setScreen('information');
   }
 
   showAnswer() {
@@ -151,7 +198,7 @@ class App extends React.Component {
     const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
     if (screen === 'front') {
-      return <FrontPage handleLogin={this.handleLogin} />;
+      return <FrontPage handleLogin={this.handleLogin}/>;
     } else if (screen === 'lobby') {
       return (
         <Lobby
@@ -169,7 +216,9 @@ class App extends React.Component {
       return <TextScreen text={waitText} />;
     } else if (screen === 'question') {
       return (
-        <Question
+        <TriviaCard
+          visibility={this.state.triviaCardRender}
+          screen={screen}
           question={question}
           answers={answers}
           setScreen={this.setScreen}
