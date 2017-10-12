@@ -1,5 +1,6 @@
 import React from 'react';
 import Join from './Join';
+import TriviaCard from './TriviaCard';
 import Question from './Question';
 import TextScreen from './TextScreen';
 import FrontPage from './FrontPage';
@@ -10,7 +11,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      screen: 'front',
+      screen: 'join',
       timePerQuestion: 0,
       question: '',
       answers: [],
@@ -112,13 +113,13 @@ class App extends React.Component {
       return <FrontPage handleLogin={this.handleLogin}/>;
     } else if (screen === 'lobby') {
       return <Lobby username={this.state.username}/>
-    } if (screen === 'join') {
+    } else if (screen === 'join') {
       return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {
       return <TextScreen text={waitText} />;
     } else if (screen === 'question') {
       return (
-        <Question
+        <TriviaCard
           question={question}
           answers={answers}
           setScreen={this.setScreen}

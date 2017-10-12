@@ -45,7 +45,7 @@ class Lobby extends React.Component {
   render() {
     return (
       <div className="container-fluid main-lobby">
-        <img id="lobby-background" src="../..//mars-surface.jpg" alt="mars-surface" className="animated zoomIn"/>
+        <img id="lobby-background" src="../../mars-surface.jpg" alt="mars-surface" className="animated zoomIn"/>
         <div className="container-fluid">
           <div className="row justify-content-sm-center">
             <div className={`col-sm-3 leaderboard mr-3 ${this.state.leaderboardRender}`}>
