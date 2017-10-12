@@ -8,16 +8,16 @@ class FrontPage extends React.Component {
       loginText: '',
       guestText: '',
       registerText: '',
-      registerTextTop: 'hidden',
-      loginForm: 'hidden',
-      guestTextTop: 'hidden',
-      passwordField: 'hidden',
+      registerTextTop: 'invisible',
+      loginForm: 'invisible',
+      guestTextTop: 'invisible',
+      passwordField: '',
       mode: 'welcome',
 
       // form values
       username: '',
       password: '',
-    };
+    }
 
     this.handleLogin = props.handleLogin;
 
@@ -28,7 +28,7 @@ class FrontPage extends React.Component {
     this.setLoginView = this.setLoginView.bind(this);
     this.resetView = this.resetView.bind(this);
     this.setRegisterView = this.setRegisterView.bind(this);
-  }
+  };
 
   setLoginView() {
     if (this.state.mode === 'welcome') {
@@ -37,17 +37,17 @@ class FrontPage extends React.Component {
         guestText: 'animated bounceOutRight',
         registerText: 'animated bounceOutRight',
         loginForm: 'animated bounceInLeft',
-        passwordField: 'animated bounceInLeft'
+        passwordField: ''
       });
     } else if (this.state.mode === 'login') {
       this.resetView();
     }
-  }
+  };
 
   checkSubmit(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
-      this.handleLogin(this.state.username, this.state.password, this.state.mode);
+      this.handleLogin(this.state.username, this.state.password);
     }
   }
 
@@ -67,7 +67,7 @@ class FrontPage extends React.Component {
       guestTextTop: 'animated bounceInUp',
       loginForm: 'animated bounceInUp',
       registerText: 'animated bounceOutUp',
-      passwordField: 'hidden'
+      passwordField: 'invisible'
     });
   };
 
@@ -93,7 +93,8 @@ class FrontPage extends React.Component {
     if (this.state.mode === 'register') {
       this.setState({
         registerTextTop: 'animated bounceOutRight',
-        loginText: 'animated bounceInLeft'
+        loginText: 'animated bounceInLeft',
+        passwordField: 'animated bounceOutRight'
       });
     }
     if (this.state.mode === 'login' || this.state.mode === 'register') {
@@ -124,10 +125,10 @@ class FrontPage extends React.Component {
         <h1 onClick={this.setRegisterView} className={`registerText col text-center ${this.state.registerText}`}>Register</h1>
         <form onSubmit={this.handleLogin} className={`loginForm col text-center ${this.state.loginForm}`}>
           <div className="row justify-content-md-center input-group">
-            <input
-              className="loginInput form-control col col-sm-4"
-              type="text"
-              name="username"
+            <input 
+              className="loginInput form-control col col-sm-4" 
+              type="text" 
+              name="username" 
               placeholder="username"
               onKeyDown={this.checkSubmit}
               onChange={this.loginHandler}
@@ -135,13 +136,13 @@ class FrontPage extends React.Component {
             </input>
           </div>
           <div className="row justify-content-md-center input-group">
-            <input
+            <input 
               className={`loginInput col col-sm-4 form-control mt-4 ${this.state.passwordField}`}
-              type="password"
-              name="password"
+              type="password" 
+              name="password" 
               placeholder="password"
               onKeyDown={this.checkSubmit}
-              onChange={this.loginHandler}
+              onChange={this.loginHandler} 
               value={this.state.password}>
             </input>
           </div>
