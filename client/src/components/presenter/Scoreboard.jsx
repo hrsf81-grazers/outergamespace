@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import _ from 'underscore';
 
@@ -11,6 +12,10 @@ const propTypes = {
 const defaultProps = {
   final: false,
   restartGame: () => {},
+};
+
+const updateUserScore = (username, score) => {
+
 };
 
 const Scoreboard = ({ players, final, restartGame }) => {
