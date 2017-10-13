@@ -54,7 +54,8 @@ class Lobby extends React.Component {
         gamePanelRender: 'animated slideInRight',
         leaderboardRender: 'animated slideInLeft'
       });
-    });
+    }, 600);
+    this.getAllUsers();
   }
 
   joinGame(roomId) {
@@ -113,6 +114,7 @@ class Lobby extends React.Component {
               <GameList
                 createGame={this.props.createGame}
                 joinGame={this.joinGame}
+                socketClientInterface={this.props.socketClientInterface}
               />
             </div>
           </div>

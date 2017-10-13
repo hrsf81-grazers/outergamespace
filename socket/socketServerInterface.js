@@ -1,6 +1,7 @@
 const socketIO = require('socket.io');
 const Trivia = require('../game/trivia.js');
 const openTriviaDB = require('../helpers/openTriviaDb.js');
+const db = require('../db/index');
 
 /* GAME CONTROLS */
 
@@ -77,14 +78,18 @@ class SocketServerInterface {
 
   /* EVENT HANDLERS - PREGAME */
 
-  handleCreateRoom(socket, config, callback) {
+  handleCreateRoom(socket, username, config, callback) {
     try {
       const roomId = this.trivia.createRoom(config);
+      db.addGame(Object.assign({ roomId: roomId, username: username }, config))
+        .then(() => {
+          callback(null, roomId);
 
-      callback(null, roomId);
+          socket.join(roomId);
+          this.listenForHostEvents(socket);
+        })
+        .catch(console.error);
 
-      socket.join(roomId);
-      this.listenForHostEvents(socket);
     } catch (error) {
       callback(error.message);
     }
@@ -94,14 +99,16 @@ class SocketServerInterface {
     try {
       this.trivia.joinGame(socket.id, roomId, username);
       const game = this.getGame(roomId);
-
-      socket.join(roomId);
-      this.listenForPlayerEvents(socket);
-
-      this.emitUpdatePlayers(roomId);
-
-      // successful
-      callback(null, game.getTimePerQuestion());
+      db.addGamePlayer(roomId)
+        .then(() => {
+          socket.join(roomId);
+          this.listenForPlayerEvents(socket);
+          this.emitUpdatePlayers(roomId);
+          this.emitJoinGame(roomId);
+          // successful
+          callback(null, game.getTimePerQuestion());
+        })
+        .catch(console.error);
     } catch (error) {
       // unsuccessful
       callback(error.message);
@@ -116,17 +123,27 @@ class SocketServerInterface {
     if (game.hasNoPlayers()) {
       callback('There are no players in the room');
     } else {
-      callback(null);
-      this.emitNextQuestion(socket);
+      // callback(null);
+      // this.emitNextQuestion(socket);
+      const roomId = getRoom(socket);
+      db.updateGameStart(roomId)
+        .then(() => {
+          callback(null);
+          this.emitNextQuestion(socket);
+        })
+        .catch(console.error);
     }
   }
 
   handleEndGame(socket, callback) {
     const roomId = getRoom(socket);
     socket.leave(roomId);
-
-    this.trivia.endGame(roomId);
-    callback(null);
+    db.removeGame(roomId)
+      .then(() => {
+        this.trivia.endGame(roomId);
+        callback(null);
+      })
+      .catch(console.error);
   }
 
   handleHostDisconnect(socket) {
@@ -157,20 +174,32 @@ class SocketServerInterface {
 
     if (game) {
       // if game has not yet ended
-      game.removePlayer(socket.id);
-      this.emitUpdatePlayers(roomId);
+      this.emitLeaveGame(roomId);
+      db.removeGamePlayer(roomId)
+        .then(() => {
+          game.removePlayer(socket.id);
+          this.emitUpdatePlayers(roomId);
+        })
+        .catch(console.error);
     }
   }
 
   handleLeaveGame(socket, callback) {
     this.handlePlayerDisconnect(socket);
-
     const roomId = getRoom(socket);
     socket.leave(roomId);
     callback();
   }
 
   /* EVENT EMITTERS */
+
+  emitJoinGame(roomId) {
+    this.io.emit('joinGame', roomId);
+  }
+
+  emitLeaveGame(roomId) {
+    this.io.emit('leaveGame', roomId);
+  }
 
   emitUpdatePlayers(socketOrRoomId) {
     const game = this.getGame(socketOrRoomId);

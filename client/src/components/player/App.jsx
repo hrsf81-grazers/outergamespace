@@ -66,16 +66,6 @@ class App extends React.Component {
     this.socketClientInterface.removeListenersForPlayerEvents();
   }
 
-  handleLogin(username, password) {
-    console.log('Logging in...', username);
-    this.setState({
-      username: username,
-      password: password,
-      // Authentication routing should occur here, instantly routing to lobby is for testing only
-      screen: 'lobby'
-    });
-  }
-
   setScreen(screen) {
     const waitText = 'Please wait for the game to begin';
     const answeredText = 'You have submitted your answer';
