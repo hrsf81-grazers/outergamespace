@@ -35,7 +35,8 @@ const Scoreboard = ({ players, final, restartGame }) => {
           <div className="table-col">
             {sortedPlayers.map((player) => {
               if (final) {
-                updateUserScore(player.username, player.score);
+                updateUserScore(player.username, player.score)
+                  .then(() => 'done');
               }
               return (<div key={player.username} className="table-row" >{player.score}</div>);
             })}
