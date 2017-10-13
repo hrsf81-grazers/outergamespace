@@ -91,6 +91,33 @@ db.getUser = (name) => {
   });
 };
 
+db.updateUserScore = (name, gameScore) => {
+  const queryString = `
+    UPDATE users
+    SET total_points = total_points + ${gameScore},
+    games_played = games_played + 1
+    WHERE name='${name}'
+  `;
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        connection.release();
+      } else {
+        connection.query(queryString, (error, results) => {
+          if (err) {
+            reject(err);
+            connection.release();
+          } else {
+            resolve(results);
+            connection.release();
+          }
+        });
+      }
+    });
+  });
+};
+
 db.getAllUsers = () => {
   const queryString = `
     SELECT * FROM users
