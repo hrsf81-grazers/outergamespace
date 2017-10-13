@@ -15,15 +15,34 @@ class GameList extends React.Component {
     this.state = {
       games: []
     };
+
+    this.addGame = this.addGame.bind(this);
   }
 
   componentDidMount() {
+    this.props.socketClientInterface.listenForHostEvents();
+    this.props.socketClientInterface.registerCallbackHostNewGame(this.addGame);
+
     fetch('/games')
       .then(res => res.json())
       .then((data) => {
         this.setState({
           games: data
         });
+      })
+      .catch(console.error);
+  }
+
+  componentWillUnmount() {
+    this.props.socketClientInterface.removeListenersForHostEvents();
+  }
+
+  addGame(roomId) {
+    fetch(`/game/${roomId}`)
+      .then(res => res.json())
+      .then((data) => {
+        console.log(data[0]);
+        this.setState({ games: this.state.games.concat(data[0]) });
       })
       .catch(console.error);
   }

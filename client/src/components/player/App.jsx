@@ -53,6 +53,7 @@ class App extends React.Component {
   componentDidMount() {
     /* SOCKET EVENT LISTENERS */
     this.socketClientInterface.listenForPlayerEvents();
+    this.socketClientInterface.listenForHostEvents();
     // register the callback handlers
     this.socketClientInterface.registerCallbackPlayerNextQuestion(this.nextQuestion);
     this.socketClientInterface.registerCallbackPlayerShowAnswer(this.showAnswer);
@@ -64,6 +65,7 @@ class App extends React.Component {
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
     this.socketClientInterface.removeListenersForPlayerEvents();
+    this.socketClientInterface.removeListenersForHostEvents();
   }
 
   setScreen(screen) {
