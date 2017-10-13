@@ -99,14 +99,16 @@ class SocketServerInterface {
     try {
       this.trivia.joinGame(socket.id, roomId, username);
       const game = this.getGame(roomId);
-
-      socket.join(roomId);
-      this.listenForPlayerEvents(socket);
-
-      this.emitUpdatePlayers(roomId);
-
-      // successful
-      callback(null, game.getTimePerQuestion());
+      db.addGamePlayer(roomId)
+        .then(() => {
+          socket.join(roomId);
+          this.listenForPlayerEvents(socket);
+          this.emitUpdatePlayers(roomId);
+          this.emitJoinGame(roomId);
+          // successful
+          callback(null, game.getTimePerQuestion());
+        })
+        .catch(console.error);
     } catch (error) {
       // unsuccessful
       callback(error.message);
@@ -121,8 +123,15 @@ class SocketServerInterface {
     if (game.hasNoPlayers()) {
       callback('There are no players in the room');
     } else {
-      callback(null);
-      this.emitNextQuestion(socket);
+      // callback(null);
+      // this.emitNextQuestion(socket);
+      const roomId = getRoom(socket);
+      db.updateGameStart(roomId)
+        .then(() => {
+          callback(null);
+          this.emitNextQuestion(socket);
+        })
+        .catch(console.error);
     }
   }
 
@@ -165,20 +174,32 @@ class SocketServerInterface {
 
     if (game) {
       // if game has not yet ended
-      game.removePlayer(socket.id);
-      this.emitUpdatePlayers(roomId);
+      this.emitLeaveGame(roomId);
+      db.removeGamePlayer(roomId)
+        .then(() => {
+          game.removePlayer(socket.id);
+          this.emitUpdatePlayers(roomId);
+        })
+        .catch(console.error);
     }
   }
 
   handleLeaveGame(socket, callback) {
     this.handlePlayerDisconnect(socket);
-
     const roomId = getRoom(socket);
     socket.leave(roomId);
     callback();
   }
 
   /* EVENT EMITTERS */
+
+  emitJoinGame(roomId) {
+    this.io.emit('joinGame', roomId);
+  }
+
+  emitLeaveGame(roomId) {
+    this.io.emit('leaveGame', roomId);
+  }
 
   emitUpdatePlayers(socketOrRoomId) {
     const game = this.getGame(socketOrRoomId);
