@@ -6,6 +6,8 @@ import TextScreen from './TextScreen';
 import FrontPage from './FrontPage';
 import Lobby from './Lobby';
 import Information from './Information';
+import Host from '../presenter/Host';
+import axios from 'axios';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 
@@ -38,6 +40,7 @@ class App extends React.Component {
     /* METHOD BINDING */
     this.handleLogin = this.handleLogin.bind(this);
     this.setScreen = this.setScreen.bind(this);
+    this.createGame = this.createGame.bind(this);
     this.joinGame = this.joinGame.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
