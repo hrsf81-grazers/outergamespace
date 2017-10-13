@@ -1,13 +1,17 @@
 import React from 'react';
-import axios from 'axios';
 import Join from './Join';
 import TriviaCard from './TriviaCard';
 import Question from './Question';
 import TextScreen from './TextScreen';
 import FrontPage from './FrontPage';
 import Lobby from './Lobby';
+import Information from './Information';
 import Host from '../presenter/Host';
+import axios from 'axios';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
+
+
+
 
 class App extends React.Component {
   constructor() {
@@ -18,11 +22,17 @@ class App extends React.Component {
       question: '',
       answers: [],
       username: '',
-      password: '',
       // visibilility states for animation renders
       triviaCardRender: 'invisible',
-      textCardRender: 'invisible',
+      informationRender: 'invisible',
+      informationType: '',
+      informationText: ''
     };
+
+    const waitText = 'Please wait for the game to begin';
+    const answeredText = 'You have submitted your answer';
+    const scoreText = 'Check out the main screen!';
+    const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
     /* SOCKET CLIENT INTERFACE */
     this.socketClientInterface = new SocketClientInterface();
@@ -57,6 +67,11 @@ class App extends React.Component {
   }
 
   setScreen(screen) {
+    const waitText = 'Please wait for the game to begin';
+    const answeredText = 'You have submitted your answer';
+    const scoreText = 'Check out the main screen!';
+    const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
+
     this.setState((state, props) => {
       if (state.screen === 'question' && screen !== 'information') {
         return {
@@ -70,13 +85,51 @@ class App extends React.Component {
           triviaCardRender: 'animated slideInLeft',
           screen: screen
         }
-      } else {
+      } else if (screen === 'wait') {
         return {
+          informationRender: 'animated slideInLeft',
+          informationText: waitText,
+          screen: screen
+        }
+      } else if (screen === 'answered') {
+        return {
+          triviaCardRender: 'animated slideOutRight',
+          informationRender: 'animated slideInLeft',
+          informationText: answeredText,
+          informationType: 'answered',
+          screen: screen
+        }
+      } else if (screen === 'roundScores') {
+        return {
+          triviaCardRender: 'animated slideOutRight',
+          informationRender: 'animated slideInLeft',
+          informationType: 'roundScores',
+          informationText: scoreText,
+          screen: screen
+        } 
+      } else if (screen === 'finalScores') {
+        return {
+          // TODO change this return object
+          triviaCardRender: 'animated slideOutRight',
+          informationRender: 'animated slideInLeft',
+          informationType: 'finalScores',
+          informationText: scoreText,
+          screen: screen
+        }
+      } else if (screen === 'hostDisconnect') {
+        return {
+          triviaCardRender: 'animated slideOutRight',
+          informationRender: 'animated slideInLeft',
+          informationType: 'hostDisconnect',
+          informationText: hostDisconnectText,
+          screen: screen
+        }
+      } else {
+        return {  
           screen: screen
         }
       }
     });
-
   }
 
   handleLogin(username, password, mode) {
@@ -130,7 +183,10 @@ class App extends React.Component {
   }
 
   joinGame(timePerQuestion) {
-    this.setState({ timePerQuestion });
+    this.setState({ 
+      timePerQuestion,
+      informationType: 'wait'
+    });
     this.setScreen('wait');
   }
 
@@ -169,13 +225,9 @@ class App extends React.Component {
 
   render() {
     const { screen, timePerQuestion, question, answers } = this.state;
-    const waitText = 'Please wait for the game to begin';
-    const answeredText = 'You have submitted your answer';
-    const scoreText = 'Check out the main screen!';
-    const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
     if (screen === 'front') {
-      return <FrontPage handleLogin={this.handleLogin} />;
+      return <FrontPage handleLogin={this.handleLogin}/>;
     } else if (screen === 'lobby') {
       return (
         <Lobby
@@ -190,7 +242,7 @@ class App extends React.Component {
     } else if (screen === 'join') {
       return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {
-      return <TextScreen text={waitText} />;
+      return <Information text={this.state.informationText} visibility={this.state.informationRender}/>;
     } else if (screen === 'question') {
       return (
         <TriviaCard
@@ -204,13 +256,13 @@ class App extends React.Component {
         />
       );
     } else if (screen === 'answered') {
-      return <TextScreen text={answeredText} />;
+      return <Information text={this.state.informationText} visibility={this.state.informationRender}/>;
     } else if (screen === 'roundScores') {
-      return <TextScreen text={scoreText} />;
+      return <Information text={this.state.informationText} visibility={this.state.informationRender}/>;
     } else if (screen === 'finalScores') {
-      return <TextScreen text={scoreText} btnText={'Play Again'} btnOnClick={this.leaveGame} />;
+      return <Information text={this.state.informationText} btnText={'Play Again'} btnOnClick={this.leaveGame} visibility={this.state.informationRender}/>;
     } else if (screen === 'hostDisconnect') {
-      return <TextScreen text={hostDisconnectText} />;
+      return <Information text={this.state.informationText} visibility={this.state.informationRender}/>;
     }
     return <div />;
   }

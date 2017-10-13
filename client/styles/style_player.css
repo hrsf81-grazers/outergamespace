@@ -28,7 +28,7 @@ body {
 	z-index: 400;
 }
 
-.gameBackground {
+.gameBackground, {
 	height: 65vw;
 	background-image: url(../mars-surface.jpg);	
 }
