@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GameListItem from './GameListItem';
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   createGame: PropTypes.func.isRequired,
-  joinGame: PropTypes.func.isRequired
+  joinGame: PropTypes.func.isRequired,
+  socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired
 };
 
 class GameList extends React.Component {
@@ -28,7 +30,12 @@ class GameList extends React.Component {
 
   render() {
     const gameListItems = this.state.games.map(game =>
-      <GameListItem key={game.room_id} game={game} joinGame={this.props.joinGame} />
+      (<GameListItem
+        key={game.room_id}
+        game={game}
+        joinGame={this.props.joinGame}
+        socketClientInterface={this.props.socketClientInterface}
+      />)
     );
 
     return (

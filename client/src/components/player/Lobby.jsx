@@ -112,6 +112,7 @@ class Lobby extends React.Component {
               <GameList
                 createGame={this.props.createGame}
                 joinGame={this.joinGame}
+                socketClientInterface={this.props.socketClientInterface}
               />
             </div>
           </div>

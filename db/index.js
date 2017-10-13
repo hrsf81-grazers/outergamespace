@@ -121,7 +121,7 @@ db.addGame = (game) => {
     INSERT INTO games
     (room_id, host_username, num_questions, time_per_question, max_players, num_players, is_started)
     VALUES
-    ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers}, 0, 0)
+    ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers}, 1, 0)
  `;
   return executeQuery(queryString);
 };
