@@ -15,7 +15,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      screen: 'front',
+      screen: 'join',
       timePerQuestion: 0,
       question: '',
       answers: [],
