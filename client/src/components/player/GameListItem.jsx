@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   game: PropTypes.shape({
@@ -11,24 +12,55 @@ const propTypes = {
     num_players: PropTypes.number,
     is_started: PropTypes.number
   }).isRequired,
-  joinGame: PropTypes.func.isRequired
+  joinGame: PropTypes.func.isRequired,
+  socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired
 };
 
-const GameListItem = (props) => {
-  const handleClick = () => {
-    props.joinGame(props.game.room_id);
+class GameListItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      numPlayers: this.props.game.num_players
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+    this.incrementPlayers = this.incrementPlayers.bind(this);
+    this.decrementPlayers = this.decrementPlayers.bind(this);
   }
 
-  return (
-    <div onClick={handleClick}>
-      <p>Room Code: {props.game.room_id}</p>
-      <p>Hosted By: {props.game.host_username}</p>
-      <p># Questions: {props.game.num_questions}</p>
-      <p>Max Players: {props.game.max_players}</p>
-      <p># Players: {props.game.num_players}</p>
-    </div>
-  );
-};
+  componentDidMount() {
+    this.props.socketClientInterface.registerCallbackPlayerJoinGame(this.incrementPlayers);
+    this.props.socketClientInterface.registerCallbackPlayerLeaveGame(this.decrementPlayers);
+  }
+
+  incrementPlayers(roomId) {
+    if (this.props.game.room_id === roomId) {
+      this.setState({ numPlayers: this.state.numPlayers + 1 });
+    }
+  }
+
+  decrementPlayers(roomId) {
+    if (this.props.game.room_id === roomId) {
+      this.setState({ numPlayers: this.state.numPlayers - 1 });
+    }
+  }
+
+  handleClick() {
+    this.props.joinGame(this.props.game.room_id);
+  }
+
+  render() {
+    return (
+      <div onClick={this.handleClick}>
+        <p>Room Code: {this.props.game.room_id}</p>
+        <p>Hosted By: {this.props.game.host_username}</p>
+        <p># Questions: {this.props.game.num_questions}</p>
+        <p>Max Players: {this.props.game.max_players}</p>
+        <p># Players: {this.state.numPlayers}</p>
+      </div>
+    );
+  }
+}
 
 GameListItem.propTypes = propTypes;
 
