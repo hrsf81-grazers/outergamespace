@@ -91,6 +91,18 @@ app.get('/users', (req, res) => {
     });
 });
 
+app.post('/user', (req, res) => {
+  const { username, gameScore } = req.body;
+  db.updateUserScore(username, gameScore)
+    .then((results) => {
+      res.send(results);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Could not update user data');
+    })
+});
+
 app.get('/games', (req, res) => {
   db.getGames()
     .then((results) => {
