@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Join from './Join';
+import TriviaCard from './TriviaCard';
 import Question from './Question';
 import TextScreen from './TextScreen';
 import FrontPage from './FrontPage';
@@ -16,7 +17,11 @@ class App extends React.Component {
       timePerQuestion: 0,
       question: '',
       answers: [],
-      username: ''
+      username: '',
+      password: '',
+      // visibilility states for animation renders
+      triviaCardRender: 'invisible',
+      textCardRender: 'invisible',
     };
 
     /* SOCKET CLIENT INTERFACE */
@@ -52,7 +57,26 @@ class App extends React.Component {
   }
 
   setScreen(screen) {
-    this.setState({ screen });
+    this.setState((state, props) => {
+      if (state.screen === 'question' && screen !== 'information') {
+        return {
+          triviaCardRender: 'animated slideOutRight',
+          informationRender: 'animated slideInLeft',
+          screen: screen
+        }
+      } else if (state.screen === 'information' && screen === 'question') {
+        return {
+          informationRender: 'animated slideOutRight',
+          triviaCardRender: 'animated slideInLeft',
+          screen: screen
+        }
+      } else {
+        return {
+          screen: screen
+        }
+      }
+    });
+
   }
 
   handleLogin(username, password, mode) {
@@ -169,7 +193,9 @@ class App extends React.Component {
       return <TextScreen text={waitText} />;
     } else if (screen === 'question') {
       return (
-        <Question
+        <TriviaCard
+          visibility={this.state.triviaCardRender}
+          screen={screen}
           question={question}
           answers={answers}
           setScreen={this.setScreen}
