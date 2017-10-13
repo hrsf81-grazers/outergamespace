@@ -173,14 +173,17 @@ class SocketServerInterface {
 
     if (game) {
       // if game has not yet ended
-      game.removePlayer(socket.id);
-      this.emitUpdatePlayers(roomId);
+      db.removeGamePlayer(roomId)
+        .then(() => {
+          game.removePlayer(socket.id);
+          this.emitUpdatePlayers(roomId);
+        })
+        .catch(console.error);
     }
   }
 
   handleLeaveGame(socket, callback) {
     this.handlePlayerDisconnect(socket);
-
     const roomId = getRoom(socket);
     socket.leave(roomId);
     callback();
