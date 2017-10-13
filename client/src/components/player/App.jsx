@@ -5,13 +5,14 @@ import Question from './Question';
 import TextScreen from './TextScreen';
 import FrontPage from './FrontPage';
 import Lobby from './Lobby';
+import Information from './Information';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      screen: 'front',
+      screen: 'join',
       timePerQuestion: 0,
       question: '',
       answers: [],
