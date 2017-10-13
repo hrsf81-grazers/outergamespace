@@ -102,5 +102,18 @@ app.get('/games', (req, res) => {
     });
 });
 
+app.get('/game/:roomId', (req, res) => {
+  const roomId = req.params.roomId;
+  console.log(roomId);
+  db.getGame(roomId)
+    .then((results) => {
+      res.send(results);
+    })
+    .catch((err) => {
+      res.status(500).send('Error retrieving game');
+      console.error(err);
+    });
+});
+
 // Export for testing
 module.exports = app;
