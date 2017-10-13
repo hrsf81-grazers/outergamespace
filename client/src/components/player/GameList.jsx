@@ -41,7 +41,6 @@ class GameList extends React.Component {
     fetch(`/game/${roomId}`)
       .then(res => res.json())
       .then((data) => {
-        console.log(data[0]);
         this.setState({ games: this.state.games.concat(data[0]) });
       })
       .catch(console.error);
