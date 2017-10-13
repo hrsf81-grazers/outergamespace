@@ -104,6 +104,7 @@ class SocketServerInterface {
           socket.join(roomId);
           this.listenForPlayerEvents(socket);
           this.emitUpdatePlayers(roomId);
+          this.emitJoinGame(roomId);
           // successful
           callback(null, game.getTimePerQuestion());
         })
@@ -173,6 +174,7 @@ class SocketServerInterface {
 
     if (game) {
       // if game has not yet ended
+      this.emitLeaveGame(roomId);
       db.removeGamePlayer(roomId)
         .then(() => {
           game.removePlayer(socket.id);
@@ -190,6 +192,14 @@ class SocketServerInterface {
   }
 
   /* EVENT EMITTERS */
+
+  emitJoinGame(roomId) {
+    this.io.emit('joinGame', roomId);
+  }
+
+  emitLeaveGame(roomId) {
+    this.io.emit('leaveGame', roomId);
+  }
 
   emitUpdatePlayers(socketOrRoomId) {
     const game = this.getGame(socketOrRoomId);
