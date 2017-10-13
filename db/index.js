@@ -131,6 +131,11 @@ db.getGames = () => {
   return executeQuery(queryString);
 };
 
+db.addGamePlayer = (roomId) => {
+  const queryString = `UPDATE games SET num_players = num_players + 1 WHERE room_id = '${roomId}'`;
+  return executeQuery(queryString);
+};
+
 db.updateGameStart = (roomId) => {
   const queryString = `UPDATE games SET is_started = 1 WHERE room_id = '${roomId}'`;
   return executeQuery(queryString);

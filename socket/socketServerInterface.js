@@ -99,14 +99,15 @@ class SocketServerInterface {
     try {
       this.trivia.joinGame(socket.id, roomId, username);
       const game = this.getGame(roomId);
-
-      socket.join(roomId);
-      this.listenForPlayerEvents(socket);
-
-      this.emitUpdatePlayers(roomId);
-
-      // successful
-      callback(null, game.getTimePerQuestion());
+      db.addGamePlayer(roomId)
+        .then(() => {
+          socket.join(roomId);
+          this.listenForPlayerEvents(socket);
+          this.emitUpdatePlayers(roomId);
+          // successful
+          callback(null, game.getTimePerQuestion());
+        })
+        .catch(console.error);
     } catch (error) {
       // unsuccessful
       callback(error.message);
