@@ -14,9 +14,9 @@ const defaultProps = {
   restartGame: () => {},
 };
 
-const updateUserScore = (username, score) => {
-
-};
+const updateUserScore = (username, gameScore) => (
+  axios.post('/user', { username, gameScore })
+);
 
 const Scoreboard = ({ players, final, restartGame }) => {
   const sortedPlayers = _.sortBy(players, 'score').reverse();
@@ -33,9 +33,12 @@ const Scoreboard = ({ players, final, restartGame }) => {
           </div>
 
           <div className="table-col">
-            {sortedPlayers.map(player => (
-              <div key={player.username} className="table-row" >{player.score}</div>
-            ))}
+            {sortedPlayers.map((player) => {
+              if (final) {
+                updateUserScore(player.username, player.score);
+              }
+              return (<div key={player.username} className="table-row" >{player.score}</div>);
+            })}
           </div>
         </div>
       </div>
