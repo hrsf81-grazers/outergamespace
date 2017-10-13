@@ -19,7 +19,7 @@ class App extends React.Component {
       // visibilility states for animation renders
       triviaCardRender: 'invisible',
       informationRender: 'invisible',
-      informationType: ''
+      informationType: '',
     };
 
     /* SOCKET CLIENT INTERFACE */
