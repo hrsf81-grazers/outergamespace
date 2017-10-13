@@ -53,6 +53,7 @@ class App extends React.Component {
   componentDidMount() {
     /* SOCKET EVENT LISTENERS */
     this.socketClientInterface.listenForPlayerEvents();
+    this.socketClientInterface.listenForHostEvents();
     // register the callback handlers
     this.socketClientInterface.registerCallbackPlayerNextQuestion(this.nextQuestion);
     this.socketClientInterface.registerCallbackPlayerShowAnswer(this.showAnswer);
@@ -64,6 +65,7 @@ class App extends React.Component {
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
     this.socketClientInterface.removeListenersForPlayerEvents();
+    this.socketClientInterface.removeListenersForHostEvents();
   }
 
   setScreen(screen) {
@@ -169,12 +171,27 @@ class App extends React.Component {
           alert('That user does not exist');
           console.error(err);
         });
-    } else {
-      console.log('Logging in...', username);
-      this.setState({
-        username,
-        screen: 'lobby'
-      });
+    } else if (mode === 'guest') {
+      axios.get('/users')
+        .then(response => response.data)
+        .then((users) => {
+          let result = false;
+          users.forEach((user) => {
+            if (user.name === username) { result = true; }
+          });
+          return result;
+        })
+        .then((exists) => {
+          if (exists) {
+            alert('That username already exists');
+          } else {
+            console.log('Logging in...', username);
+            this.setState({
+              username,
+              screen: 'lobby'
+            });
+          }
+        });
     }
   }
 

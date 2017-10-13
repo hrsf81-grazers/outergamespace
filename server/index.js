@@ -91,6 +91,18 @@ app.get('/users', (req, res) => {
     });
 });
 
+app.post('/user', (req, res) => {
+  const { username, gameScore } = req.body;
+  db.updateUserScore(username, gameScore)
+    .then((results) => {
+      res.send(results);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Could not update user data');
+    })
+});
+
 app.get('/games', (req, res) => {
   db.getGames()
     .then((results) => {
@@ -98,6 +110,19 @@ app.get('/games', (req, res) => {
     })
     .catch((err) => {
       res.status(500).send('Error retrieving games data');
+      console.error(err);
+    });
+});
+
+app.get('/game/:roomId', (req, res) => {
+  const roomId = req.params.roomId;
+  console.log(roomId);
+  db.getGame(roomId)
+    .then((results) => {
+      res.send(results);
+    })
+    .catch((err) => {
+      res.status(500).send('Error retrieving game');
       console.error(err);
     });
 });

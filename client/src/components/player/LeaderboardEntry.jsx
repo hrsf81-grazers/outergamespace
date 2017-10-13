@@ -1,11 +1,9 @@
 import React from 'react';
 
 const LeaderboardEntry = props => (
-  <li>{props.user.name}
-    <ul>
-      <li>Total Points:{props.user.total_points}</li>
-      <li>Games Played:{props.user.games_played}</li>
-    </ul>
+  <li className="list-group-item bg-transparent leaderboardText">
+    <span>{`${props.index + 1}. ${props.user.name}   ${props.user.total_points}pts`}</span>
+    <span className="badge-dark">{props.user.games_played}</span>
   </li>
 );
 

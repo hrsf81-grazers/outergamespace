@@ -91,6 +91,33 @@ db.getUser = (name) => {
   });
 };
 
+db.updateUserScore = (name, gameScore) => {
+  const queryString = `
+    UPDATE users
+    SET total_points = total_points + ${gameScore},
+    games_played = games_played + 1
+    WHERE name='${name}'
+  `;
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        connection.release();
+      } else {
+        connection.query(queryString, (error, results) => {
+          if (err) {
+            reject(err);
+            connection.release();
+          } else {
+            resolve(results);
+            connection.release();
+          }
+        });
+      }
+    });
+  });
+};
+
 db.getAllUsers = () => {
   const queryString = `
     SELECT * FROM users
@@ -119,15 +146,20 @@ db.addGame = (game) => {
   const { roomId, username, noOfQuestions, timePerQuestion, maxPlayers } = game;
   const queryString = `
     INSERT INTO games
-    (room_id, host_username, num_questions, time_per_question, max_players, num_players, is_started)
+    (room_id, host_username, num_questions, time_per_question, max_players)
     VALUES
-    ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers}, 1, 0)
+    ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers})
  `;
   return executeQuery(queryString);
 };
 
 db.getGames = () => {
   const queryString = 'SELECT * FROM games WHERE is_started = 0 AND num_players < max_players';
+  return executeQuery(queryString);
+};
+
+db.getGame = (roomId) => {
+  const queryString = `SELECT * FROM games WHERE room_id = '${roomId}'`;
   return executeQuery(queryString);
 };
 

@@ -17,7 +17,7 @@ CREATE TABLE games(
   num_questions INT NOT NULL,
   time_per_question INT NOT NULL,
   max_players INT NOT NULL,
-  num_players INT NOT NULL DEFAULT 0,
+  num_players INT NOT NULL DEFAULT 1,
   is_started TINYINT NOT NULL DEFAULT 0
 );
 
