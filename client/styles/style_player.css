@@ -28,14 +28,22 @@ body {
 	z-index: 400;
 }
 
-.gameBackground, {
-	height: 65vw;
+.gameBackground {
+	height: 70vw;
 	background-image: url(../mars-surface.jpg);	
+	z-index: 250;
 }
 
 .triviaCard {
 	height: 315px;
 	background-color: rgba(255, 255, 255, 0.26);
+	color: #FFFFFF;
+}
+
+.informationCard {
+	height: 200px;
+	width: 125px;
+	background-color: rgba(0, 0, 0, 0.38);
 	color: #FFFFFF;
 }
 
@@ -52,7 +60,7 @@ body {
 	height: 100%;
 }
 
-.titleText, .loginText, .guestText, .registerText, .registerTextTop, .guestTextTop, .guestInput {
+.titleText, .loginText, .guestText, .registerText, .registerTextTop, .guestTextTop, .guestInput, .informationText {
 	font-family: 'Comfortaa';
 	color: white;
 	position: absolute;
@@ -105,4 +113,20 @@ body {
 
 .hidden {
 	display: none;
+}
+
+
+.informationText {
+	font-size: 30px;
+}
+
+.leaderboardText {
+	font-family: 'Comfortaa';
+	font-size: 16px;
+}
+
+.badge-dark {
+	padding: 5px 5px 3px 5px;
+	margin-left: 10px;
+	border-radius: 4px;
 }
