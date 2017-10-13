@@ -39,6 +39,27 @@ class Lobby extends React.Component {
     }
   }
 
+  getAllUsers() {
+    axios.get('/users')
+      .then((response) => {
+        this.setState({
+          users: response.data
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  joinGame(roomId) {
+    this.props.socketClientInterface.connection.emit('joinRoom', roomId, this.props.username, (errMsg, timePerQuestion) => {
+      if (errMsg) {
+        console.error(errMsg);
+      } else {
+        // joined game successfully
+        this.props.joinGame(timePerQuestion);
+      }
+    });
+  }
+
   chatHandler(event) {
     const name = event.target.name;
     const input = event.target.value;
@@ -56,27 +77,6 @@ class Lobby extends React.Component {
       });
     }, 600);
     this.getAllUsers();
-  }
-
-  joinGame(roomId) {
-    this.props.socketClientInterface.connection.emit('joinRoom', roomId, this.props.username, (errMsg, timePerQuestion) => {
-      if (errMsg) {
-        console.error(errMsg);
-      } else {
-        // joined game successfully
-        this.props.joinGame(timePerQuestion);
-      }
-    });
-  }
-
-  getAllUsers() {
-    axios.get('/users')
-      .then((response) => {
-        this.setState({
-          users: response.data
-        });
-      })
-      .catch(err => console.error(err));
   }
 
   render() {

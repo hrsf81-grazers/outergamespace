@@ -59,6 +59,7 @@ class SocketServerInterface {
 
   listenForPregameEvents() {
     this.io.on('connection', (socket) => {
+      socket.join('lobby');
       socket.on('createRoom', this.handleCreateRoom.bind(this, socket));
       socket.on('joinRoom', this.handleJoinRoom.bind(this, socket));
     });
@@ -84,9 +85,10 @@ class SocketServerInterface {
       db.addGame(Object.assign({ roomId: roomId, username: username }, config))
         .then(() => {
           callback(null, roomId);
-
+          socket.leave('lobby');
           socket.join(roomId);
           this.listenForHostEvents(socket);
+          this.emitNewGame(roomId);
         })
         .catch(console.error);
 
@@ -101,10 +103,10 @@ class SocketServerInterface {
       const game = this.getGame(roomId);
       db.addGamePlayer(roomId)
         .then(() => {
-          socket.join(roomId);
           this.listenForPlayerEvents(socket);
           this.emitUpdatePlayers(roomId);
           this.emitJoinGame(roomId);
+          socket.join(roomId);
           // successful
           callback(null, game.getTimePerQuestion());
         })
@@ -193,8 +195,12 @@ class SocketServerInterface {
 
   /* EVENT EMITTERS */
 
+  emitNewGame(roomId) {
+    this.io.to('lobby').emit('newGame', roomId);
+  }
+
   emitJoinGame(roomId) {
-    this.io.emit('joinGame', roomId);
+    this.io.to('lobby').emit('joinGame', roomId);
   }
 
   emitLeaveGame(roomId) {
