@@ -22,4 +22,4 @@ CREATE TABLE games(
 );
 
 INSERT INTO users (name, hash, total_points, games_played, badge)
-VALUES ('Backbone', '$2a$10$WZDCgP6R1OiAIiHYUtXAe.UPvJp0ez.DqSv58E3BJK2drc8yVmj2a', 10000, 100, 'top_dog');
+VALUES ('Backbone', '$2a$10$WZDCgP6R1OiAIiHYUtXAe.UPvJp0ez.DqSv58E3BJK2drc8yVmj2a', 10000, 100, 'hacker');
