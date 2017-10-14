@@ -8,14 +8,16 @@ const propTypes = {
 };
 
 const AnswerList = ({ answers, correctAns }) => (
-  <div className="screen-middle">
-    {answers.map(answer => (
-      <AnswerListEntry
-        key={answer}
-        answer={answer}
-        selected={answer === correctAns}
-      />
-    ))}
+  <div className="card col-sm-9 presenterQuestionCard">
+    <div className="list-group list-group-flush">
+      {answers.map(answer => (
+        <AnswerListEntry
+          key={answer}
+          answer={answer}
+          selected={answer === correctAns}
+        />
+      ))}
+    </div>
   </div>
 );
 

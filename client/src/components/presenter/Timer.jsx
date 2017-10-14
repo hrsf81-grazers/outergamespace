@@ -58,7 +58,7 @@ class Timer extends React.Component {
     } else if (remainingTime <= WARNING_TIME) {
       color = 'warning';
     }
-    return <div className={`screen-top screen-bordered ${color}`} >{this.state.remainingTime}</div>;
+    return <div className={`countdown ${color}`} >{this.state.remainingTime}</div>;
   }
 }
 
