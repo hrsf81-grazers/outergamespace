@@ -11,14 +11,13 @@ CREATE TABLE users(
   badge VARCHAR(120) NOT NULL
 );
 
-CREATE TABLE games(
+CREATE TABLE open_games(
   room_id VARCHAR(10) PRIMARY KEY NOT NULL,
   host_username VARCHAR(20) NOT NULL UNIQUE,
   num_questions INT NOT NULL,
   time_per_question INT NOT NULL,
   max_players INT NOT NULL,
-  num_players INT NOT NULL DEFAULT 1,
-  is_started TINYINT NOT NULL DEFAULT 0
+  num_players INT NOT NULL DEFAULT 1
 );
 
 INSERT INTO users (name, hash, total_points, games_played, badge)

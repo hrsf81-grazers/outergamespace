@@ -21,7 +21,6 @@ class SocketClientInterface {
   /* EVENT LISTENERS */
 
   listenForHostEvents() {
-    this.connection.on('newGame', this.handleHostNewGame.bind(this));
     this.connection.on('updatePlayers', this.handleHostUpdatePlayers.bind(this));
     this.connection.on('nextQuestion', this.handleHostNextQuestion.bind(this));
     this.connection.on('showRoundScores', this.handleHostShowRoundScores.bind(this));
@@ -30,7 +29,9 @@ class SocketClientInterface {
   }
 
   listenForPlayerEvents() {
+    this.connection.on('newGame', this.handlePlayerNewGame.bind(this));
     this.connection.on('joinGame', this.handlePlayerJoinGame.bind(this));
+    this.connection.on('gameStarted', this.handlePlayerStartGame.bind(this));
     this.connection.on('leaveGame', this.handlePlayerLeaveGame.bind(this));
     this.connection.on('nextQuestion', this.handlePlayerNextQuestion.bind(this));
     this.connection.on('showAnswer', this.handlePlayerShowAnswer.bind(this));
@@ -40,7 +41,6 @@ class SocketClientInterface {
   }
 
   removeListenersForHostEvents() {
-    this.connection.removeAllListeners('newGame');
     this.connection.removeAllListeners('updatePlayers');
     this.connection.removeAllListeners('nextQuestion');
     this.connection.removeAllListeners('showRoundScores');
@@ -48,7 +48,9 @@ class SocketClientInterface {
   }
 
   removeListenersForPlayerEvents() {
+    this.connection.removeAllListeners('newGame');
     this.connection.removeAllListeners('joinGame');
+    this.connection.removeAllListeners('gameStarted');
     this.connection.removeAllListeners('leaveGame');
     this.connection.removeAllListeners('nextQuestion');
     this.connection.removeAllListeners('showAnswer');
@@ -59,9 +61,6 @@ class SocketClientInterface {
 
   /* EVENT HANDLERS - HOST */
 
-  handleHostNewGame(roomId) {
-    this.callbacks.host.newGame(roomId);
-  }
   handleHostUpdatePlayers(players) {
     // TODO: Add some error handling if there was no callback defined
     this.callbacks.host.updatePlayers(players);
@@ -80,8 +79,14 @@ class SocketClientInterface {
   }
 
   /* EVENT HANDLERS - PLAYER */
+  handlePlayerNewGame(roomId) {
+    this.callbacks.player.newGame(roomId);
+  }
   handlePlayerJoinGame(roomId) {
     this.callbacks.player.joinGame(roomId);
+  }
+  handlePlayerStartGame(roomId) {
+    this.callbacks.player.startGame(roomId);
   }
   handlePlayerLeaveGame(roomId) {
     this.callbacks.player.leaveGame(roomId);
@@ -107,9 +112,6 @@ class SocketClientInterface {
 
   /* EVENT CALLBACK REGISTRY - HOST */
 
-  registerCallbackHostNewGame(callback) {
-    this.callbacks.host.newGame = callback;
-  }
   registerCallbackHostUpdatePlayers(callback) {
     this.callbacks.host.updatePlayers = callback;
   }
@@ -127,9 +129,14 @@ class SocketClientInterface {
   }
 
   /* EVENT CALLBACK REGISTRY - PLAYER */
-
+  registerCallbackPlayerNewGame(callback) {
+    this.callbacks.player.newGame = callback;
+  }
   registerCallbackPlayerJoinGame(callback) {
     this.callbacks.player.joinGame = callback;
+  }
+  registerCallbackPlayerStartGame(callback) {
+    this.callbacks.player.startGame = callback;
   }
   registerCallbackPlayerLeaveGame(callback) {
     this.callbacks.player.leaveGame = callback;

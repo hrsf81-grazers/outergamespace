@@ -50,6 +50,9 @@ class GameListItem extends React.Component {
   }
 
   render() {
+    if (this.state.numPlayers === this.props.game.max_players) {
+      return <div />;
+    }
     return (
       <div onClick={this.handleClick}>
         <p>Room Code: {this.props.game.room_id}</p>
