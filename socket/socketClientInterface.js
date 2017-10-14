@@ -21,7 +21,6 @@ class SocketClientInterface {
   /* EVENT LISTENERS */
 
   listenForHostEvents() {
-    this.connection.on('newGame', this.handleHostNewGame.bind(this));
     this.connection.on('updatePlayers', this.handleHostUpdatePlayers.bind(this));
     this.connection.on('nextQuestion', this.handleHostNextQuestion.bind(this));
     this.connection.on('showRoundScores', this.handleHostShowRoundScores.bind(this));
@@ -42,7 +41,6 @@ class SocketClientInterface {
   }
 
   removeListenersForHostEvents() {
-    this.connection.removeAllListeners('newGame');
     this.connection.removeAllListeners('updatePlayers');
     this.connection.removeAllListeners('nextQuestion');
     this.connection.removeAllListeners('showRoundScores');
@@ -63,9 +61,6 @@ class SocketClientInterface {
 
   /* EVENT HANDLERS - HOST */
 
-  handleHostNewGame(roomId) {
-    this.callbacks.host.newGame(roomId);
-  }
   handleHostUpdatePlayers(players) {
     // TODO: Add some error handling if there was no callback defined
     this.callbacks.host.updatePlayers(players);
@@ -117,9 +112,6 @@ class SocketClientInterface {
 
   /* EVENT CALLBACK REGISTRY - HOST */
 
-  registerCallbackHostNewGame(callback) {
-    this.callbacks.host.newGame = callback;
-  }
   registerCallbackHostUpdatePlayers(callback) {
     this.callbacks.host.updatePlayers = callback;
   }

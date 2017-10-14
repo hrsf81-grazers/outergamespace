@@ -21,9 +21,6 @@ class GameList extends React.Component {
   }
 
   componentDidMount() {
-    this.props.socketClientInterface.listenForHostEvents();
-    this.props.socketClientInterface.registerCallbackHostNewGame(this.addGame);
-
     fetch('/games')
       .then(res => res.json())
       .then((data) => {
@@ -35,10 +32,6 @@ class GameList extends React.Component {
 
     this.props.socketClientInterface.registerCallbackPlayerNewGame(this.addGame);
     this.props.socketClientInterface.registerCallbackPlayerStartGame(this.removeGame);
-  }
-
-  componentWillUnmount() {
-    this.props.socketClientInterface.removeListenersForHostEvents();
   }
 
   addGame(roomId) {

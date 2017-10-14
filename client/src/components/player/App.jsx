@@ -10,9 +10,6 @@ import Host from '../presenter/Host';
 import axios from 'axios';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
-
-
-
 class App extends React.Component {
   constructor() {
     super();
@@ -53,7 +50,6 @@ class App extends React.Component {
   componentDidMount() {
     /* SOCKET EVENT LISTENERS */
     this.socketClientInterface.listenForPlayerEvents();
-    this.socketClientInterface.listenForHostEvents();
     // register the callback handlers
     this.socketClientInterface.registerCallbackPlayerNextQuestion(this.nextQuestion);
     this.socketClientInterface.registerCallbackPlayerShowAnswer(this.showAnswer);
@@ -65,7 +61,6 @@ class App extends React.Component {
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
     this.socketClientInterface.removeListenersForPlayerEvents();
-    this.socketClientInterface.removeListenersForHostEvents();
   }
 
   setScreen(screen) {
@@ -108,7 +103,7 @@ class App extends React.Component {
           informationType: 'roundScores',
           informationText: scoreText,
           screen: screen
-        } 
+        }
       } else if (screen === 'finalScores') {
         return {
           // TODO change this return object
@@ -127,7 +122,7 @@ class App extends React.Component {
           screen: screen
         }
       } else {
-        return {  
+        return {
           screen: screen
         }
       }
@@ -200,7 +195,7 @@ class App extends React.Component {
   }
 
   joinGame(timePerQuestion) {
-    this.setState({ 
+    this.setState({
       timePerQuestion,
       informationType: 'wait'
     });

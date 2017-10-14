@@ -59,7 +59,6 @@ class SocketServerInterface {
 
   listenForPregameEvents() {
     this.io.on('connection', (socket) => {
-      socket.join('lobby');
       socket.on('createRoom', this.handleCreateRoom.bind(this, socket));
       socket.on('joinRoom', this.handleJoinRoom.bind(this, socket));
     });
@@ -199,7 +198,7 @@ class SocketServerInterface {
   }
 
   emitJoinGame(roomId) {
-    this.io.to('lobby').emit('joinGame', roomId);
+    this.io.emit('joinGame', roomId);
   }
 
   emitGameStarted(roomId) {
