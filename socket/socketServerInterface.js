@@ -129,6 +129,7 @@ class SocketServerInterface {
       db.updateGameStart(roomId)
         .then(() => {
           callback(null);
+          this.emitGameStarted(roomId);
           this.emitNextQuestion(socket);
         })
         .catch(console.error);
@@ -199,6 +200,10 @@ class SocketServerInterface {
 
   emitJoinGame(roomId) {
     this.io.to('lobby').emit('joinGame', roomId);
+  }
+
+  emitGameStarted(roomId) {
+    this.io.emit('gameStarted', roomId);
   }
 
   emitLeaveGame(roomId) {

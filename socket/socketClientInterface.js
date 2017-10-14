@@ -32,6 +32,7 @@ class SocketClientInterface {
   listenForPlayerEvents() {
     this.connection.on('newGame', this.handlePlayerNewGame.bind(this));
     this.connection.on('joinGame', this.handlePlayerJoinGame.bind(this));
+    this.connection.on('gameStarted', this.handlePlayerStartGame.bind(this));
     this.connection.on('leaveGame', this.handlePlayerLeaveGame.bind(this));
     this.connection.on('nextQuestion', this.handlePlayerNextQuestion.bind(this));
     this.connection.on('showAnswer', this.handlePlayerShowAnswer.bind(this));
@@ -51,6 +52,7 @@ class SocketClientInterface {
   removeListenersForPlayerEvents() {
     this.connection.removeAllListeners('newGame');
     this.connection.removeAllListeners('joinGame');
+    this.connection.removeAllListeners('gameStarted');
     this.connection.removeAllListeners('leaveGame');
     this.connection.removeAllListeners('nextQuestion');
     this.connection.removeAllListeners('showAnswer');
@@ -87,6 +89,9 @@ class SocketClientInterface {
   }
   handlePlayerJoinGame(roomId) {
     this.callbacks.player.joinGame(roomId);
+  }
+  handlePlayerStartGame(roomId) {
+    this.callbacks.player.startGame(roomId);
   }
   handlePlayerLeaveGame(roomId) {
     this.callbacks.player.leaveGame(roomId);
@@ -137,6 +142,9 @@ class SocketClientInterface {
   }
   registerCallbackPlayerJoinGame(callback) {
     this.callbacks.player.joinGame = callback;
+  }
+  registerCallbackPlayerStartGame(callback) {
+    this.callbacks.player.startGame = callback;
   }
   registerCallbackPlayerLeaveGame(callback) {
     this.callbacks.player.leaveGame = callback;

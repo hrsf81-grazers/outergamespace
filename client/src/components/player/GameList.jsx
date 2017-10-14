@@ -17,6 +17,7 @@ class GameList extends React.Component {
     };
 
     this.addGame = this.addGame.bind(this);
+    this.removeGame = this.removeGame.bind(this);
   }
 
   componentDidMount() {
@@ -33,6 +34,7 @@ class GameList extends React.Component {
       .catch(console.error);
 
     this.props.socketClientInterface.registerCallbackPlayerNewGame(this.addGame);
+    this.props.socketClientInterface.registerCallbackPlayerStartGame(this.removeGame);
   }
 
   componentWillUnmount() {
@@ -46,6 +48,12 @@ class GameList extends React.Component {
         this.setState({ games: this.state.games.concat(data[0]) });
       })
       .catch(console.error);
+  }
+
+  removeGame(roomId) {
+    this.setState({
+      games: this.state.games.filter(game => game.room_id !== roomId)
+    });
   }
 
   render() {
