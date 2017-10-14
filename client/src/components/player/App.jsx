@@ -7,6 +7,7 @@ import FrontPage from './FrontPage';
 import Lobby from './Lobby';
 import Information from './Information';
 import Host from '../presenter/Host';
+import Scoreboard from '../presenter/Scoreboard';
 import axios from 'axios';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
@@ -20,7 +21,8 @@ class App extends React.Component {
       timePerQuestion: 0,
       question: '',
       answers: [],
-      username: name,
+      username: '',
+      players: [],
       // visibilility states for animation renders
       triviaCardRender: 'invisible',
       informationRender: 'invisible',
@@ -208,7 +210,10 @@ class App extends React.Component {
     this.setScreen('roundScores');
   }
 
-  showRoundScores() {
+  showRoundScores(players) {
+    this.setState({
+      players: players
+    });
     this.setScreen('roundScores');
   }
 
@@ -272,7 +277,7 @@ class App extends React.Component {
     } else if (screen === 'answered') {
       return <Information text={this.state.informationText} visibility={this.state.informationRender}/>;
     } else if (screen === 'roundScores') {
-      return <Information text={this.state.informationText} visibility={this.state.informationRender}/>;
+      return <Scoreboard players={this.state.players} />;
     } else if (screen === 'finalScores') {
       // return <Information text={this.state.informationText} btnText={'Play Again'} btnOnClick={this.leaveGame} visibility={this.state.informationRender}/>;
       return (
