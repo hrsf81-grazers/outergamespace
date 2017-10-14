@@ -7,7 +7,7 @@ const propTypes = {
 };
 
 const AnsweredPlayerList = ({ players }) => (
-  <div className="answered-player-list">
+  <div className="list-group list-group-flush">
     {players.map(player => <AnsweredPlayerListEntry key={player.username} player={player} />)}
   </div>
 );

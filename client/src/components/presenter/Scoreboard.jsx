@@ -21,37 +21,53 @@ const updateUserScore = (username, gameScore) => (
 const Scoreboard = ({ players, final, restartGame }) => {
   const sortedPlayers = _.sortBy(players, 'score').reverse();
   return (
-    <div className="screen">
-      <div className="screen-top" >{final && 'Final'} Scoreboard</div>
-
-      <div className="screen-middle screen-bordered" >
-        <div className="table-body">
-          <div className="table-col">
-            {sortedPlayers.map(player => (
-              <div key={player.username} className="table-row" >{player.username}</div>
-            ))}
-          </div>
-
-          <div className="table-col">
-            {sortedPlayers.map((player) => {
-              if (final) {
-                updateUserScore(player.username, player.score)
-                  .then(() => 'done');
-              }
-              return (<div key={player.username} className="table-row" >{player.score}</div>);
-            })}
+    <div className="container-fluid gameBackground">
+      <div className="row align-items-center justify-content-md-center">
+        <div className="card col-sm-9 animated-slideInLeft">
+          <div className="card-block">
+            <div className="list-group list-group-flush">
+              {sortedPlayers.map(player =>
+                <ScoreboardEntry player={player}/>
+              )}
+            </div>
           </div>
         </div>
       </div>
-
-      <div className="screen-bottom">
-        {final && <button onClick={restartGame} >New Game</button>}
-      </div>
     </div>
-  );
+  )
 };
 
 Scoreboard.propTypes = propTypes;
 Scoreboard.defaultProps = defaultProps;
 
 export default Scoreboard;
+
+// return (
+//   <div className="screen">
+//     <div className="screen-top" >{final && 'Final'} Scoreboard</div>
+
+//     <div className="screen-middle screen-bordered" >
+//       <div className="table-body">
+//         <div className="table-col">
+//           {sortedPlayers.map(player => (
+//             <div key={player.username} className="table-row" >{player.username}</div>
+//           ))}
+//         </div>
+
+//         <div className="table-col">
+//           {sortedPlayers.map((player) => {
+//             if (final) {
+//               updateUserScore(player.username, player.score)
+//                 .then(() => 'done');
+//             }
+//             return (<div key={player.username} className="table-row" >{player.score}</div>);
+//           })}
+//         </div>
+//       </div>
+//     </div>
+
+//     <div className="screen-bottom">
+//       {final && <button onClick={restartGame} >New Game</button>}
+//     </div>
+//   </div>
+// );

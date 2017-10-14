@@ -42,7 +42,7 @@ class WaitingRoom extends React.Component {
               </div>
 
               <button 
-                className="presenterText btn btn-outline-light"
+                className="presenterText btn btn-outline-light mt-3"
                 disabled={players.length === 0} 
                 onClick={this.startGame} >
                 Start Game
