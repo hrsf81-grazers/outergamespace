@@ -34,8 +34,14 @@ VALUES ('David', '$2a$10$zw6RbM4M/MpD188Zr3U20.ylSBYRuizdG/e1cCdUF7jLa5gWlfIme',
 INSERT INTO users (name, hash, total_points, games_played, badge)
 VALUES ('Lam', '$2a$10$NNULfpWpOVrbGuSyFTBjmuHdilWmzuBIntpOjRhSo8RQYgfmcQEmO', 2830, 55, 'newb');
 INSERT INTO users (name, hash, total_points, games_played, badge)
-VALUES ('Jon', '$2a$10$OcWWvxq29ZuSEL3rz/aGAe3rZyUUd6.7X.omMYBxAt3pc6qAy7DPS', 2470, 77, 'newb,grazer');
+VALUES ('Tiffany', '$2a$10$OcWWvxq29ZuSEL3rz/aGAe3rZyUUd6.7X.omMYBxAt3pc6qAy7DPS', 2640, 77, 'newb');
+INSERT INTO users (name, hash, total_points, games_played, badge)
+VALUES ('Shwetha', '$2a$10$9E6DqHNNyt05J7T0aBvWVxKtipmUsC50GlVpxF/3jYTZvh4bB4Jme', 2590, 65, 'newb');
+INSERT INTO users (name, hash, total_points, games_played, badge)
+VALUES ('Jon', '$2a$10$9E6DqHNNyt05J7T0aBvWUuKtipmUsC50GlVpxF/3jYTZvh4bB4abe', 2470, 48, 'newb,grazer');
 INSERT INTO users (name, hash, total_points, games_played, badge)
 VALUES ('Christine', '$2a$10$f16wZvuQVuI0p00Wg5djFecMzPrZv3sS2lsvGwEfYTZFeDN9K.2dm', 2010, 42, 'newb,grazer');
+INSERT INTO users (name, hash, total_points, games_played, badge)
+VALUES ('Shane', '$2a$10$9E6DqHNNyt05J7T0aBvWUuKtipmUsC50GlVpxF/3jRNVvh4bB4Jme', 50, 3, 'turd');
 INSERT INTO users (name, hash, total_points, games_played, badge)
 VALUES ('Austin', '$2a$10$9E6DqHNNyt05J7T0aBvWUuKtipmUsC50GlVpxF/3jYTZvh4bB4Jme', 10, 1, 'turd,grazer');
