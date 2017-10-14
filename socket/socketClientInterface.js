@@ -98,12 +98,10 @@ class SocketClientInterface {
     this.callbacks.player.showAnswer(answer);
   }
   handlePlayerShowRoundScores(players) {
-    // null for now since there's no data to send back
     this.callbacks.player.showRoundScores(players);
   }
-  handlePlayerShowFinalScores() {
-    // null for now since there's no data to send back
-    this.callbacks.player.showFinalScores(null);
+  handlePlayerShowFinalScores(players) {
+    this.callbacks.player.showFinalScores(players);
   }
   handlePlayerHostDisconnect() {
     // null for now since there's no data to send back

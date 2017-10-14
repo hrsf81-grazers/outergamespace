@@ -47,6 +47,7 @@ class App extends React.Component {
     this.leaveGame = this.leaveGame.bind(this);
     this.showRoundScores = this.showRoundScores.bind(this);
     this.showFinalScores = this.showFinalScores.bind(this);
+    this.returnToLobby = this.returnToLobby.bind(this);
     this.hostDisconnectHandler = this.hostDisconnectHandler.bind(this);
   }
 
@@ -211,7 +212,10 @@ class App extends React.Component {
     this.setScreen('roundScores');
   }
 
-  showFinalScores() {
+  showFinalScores(players) {
+    this.setState({
+      players: players
+    });
     this.setScreen('finalScores');
   }
 
@@ -234,6 +238,10 @@ class App extends React.Component {
 
   hostDisconnectHandler() {
     this.setScreen('hostDisconnect');
+  }
+
+  returnToLobby() {
+    this.setScreen('lobby');
   }
 
   render() {
@@ -281,13 +289,11 @@ class App extends React.Component {
     } else if (screen === 'roundScores') {
       return <Scoreboard players={players} />;
     } else if (screen === 'finalScores') {
-      // return <Information text={this.state.informationText} btnText={'Play Again'} btnOnClick={this.leaveGame} visibility={this.state.informationRender}/>;
       return (
-        <Lobby
-          username={this.state.username}
-          createGame={this.createGame}
-          joinGame={this.joinGame}
-          socketClientInterface={this.socketClientInterface}
+        <Scoreboard
+          players={players}
+          final
+          returnToLobby={this.returnToLobby}
         />
       );
     } else if (screen === 'hostDisconnect') {
