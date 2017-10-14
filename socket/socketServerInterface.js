@@ -85,13 +85,11 @@ class SocketServerInterface {
       db.addGame(Object.assign({ roomId: roomId, username: username }, config))
         .then(() => {
           callback(null, roomId);
-          socket.leave('lobby');
           socket.join(roomId);
           this.listenForHostEvents(socket);
           this.emitNewGame(roomId);
         })
         .catch(console.error);
-
     } catch (error) {
       callback(error.message);
     }
@@ -196,7 +194,7 @@ class SocketServerInterface {
   /* EVENT EMITTERS */
 
   emitNewGame(roomId) {
-    this.io.to('lobby').emit('newGame', roomId);
+    this.io.emit('newGame', roomId);
   }
 
   emitJoinGame(roomId) {

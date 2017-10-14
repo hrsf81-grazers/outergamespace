@@ -30,6 +30,7 @@ class SocketClientInterface {
   }
 
   listenForPlayerEvents() {
+    this.connection.on('newGame', this.handlePlayerNewGame.bind(this));
     this.connection.on('joinGame', this.handlePlayerJoinGame.bind(this));
     this.connection.on('leaveGame', this.handlePlayerLeaveGame.bind(this));
     this.connection.on('nextQuestion', this.handlePlayerNextQuestion.bind(this));
@@ -48,6 +49,7 @@ class SocketClientInterface {
   }
 
   removeListenersForPlayerEvents() {
+    this.connection.removeAllListeners('newGame');
     this.connection.removeAllListeners('joinGame');
     this.connection.removeAllListeners('leaveGame');
     this.connection.removeAllListeners('nextQuestion');
@@ -80,6 +82,9 @@ class SocketClientInterface {
   }
 
   /* EVENT HANDLERS - PLAYER */
+  handlePlayerNewGame(roomId) {
+    this.callbacks.player.newGame(roomId);
+  }
   handlePlayerJoinGame(roomId) {
     this.callbacks.player.joinGame(roomId);
   }
@@ -127,7 +132,9 @@ class SocketClientInterface {
   }
 
   /* EVENT CALLBACK REGISTRY - PLAYER */
-
+  registerCallbackPlayerNewGame(callback) {
+    this.callbacks.player.newGame = callback;
+  }
   registerCallbackPlayerJoinGame(callback) {
     this.callbacks.player.joinGame = callback;
   }
