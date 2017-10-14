@@ -8,11 +8,11 @@ const propTypes = {
 
 const AnswerListEntry = ({ answer, selected }) => (
   <div className={`answer list-item-group ${selected && 'selected'}`} >
-    <span className="answerLine">
+    <span className="answerLine presenterText">
       {answer}‎
       {
       selected
-        ? <span className="checkmark-placeholder checkmark" >✔</span>
+        ? <span className="checkmark-placeholder checkmark presenterText" >✔</span>
         : <span className="checkmark-placeholder" />
       }
     </span>

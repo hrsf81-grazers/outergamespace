@@ -45,13 +45,31 @@ class Question extends React.Component {
     const { correctAns } = this.state;
     return (
       <div className="container-fluid gameBackground">
-        <div className="row align-items-center">
-          <div className="card col-sm-5 presenterQuestionCard animated slideInLeft">
-            <div className="card-body">
-              <div className="list-group">
-                <AnswerList answers={answers} correctAns={correctAns} />
+        <div className="row align-items-center justify-content-center">
+          <div className="card-group animated slideInLeft">
+
+            <div className="card col-sm-10 presenterQuestionCard">
+              <div className="card-body">
+
+                <div className="card-title presenterText">
+                  {question}
+                </div>
+
+                <div className="list-group list-group-flush">
+                  <AnswerList answers={answers} correctAns={correctAns} />
+                </div>
+
               </div>
             </div>
+
+            <div className="card col-sm-10 presenterQuestionCard">
+              <div className="card-body">
+                <div className="list-group list-group-flush">
+                  <AnsweredPlayerList players={players} />
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

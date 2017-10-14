@@ -9,13 +9,13 @@ const propTypes = {
 };
 
 const AnswerListEntry = ({ answer, index, selected, updateAnswer }) => (
-  <li
-    className={`list-group-item answer ${selected}`}
+  <div
+    className={`list-group-item answer presenterText ${selected}`}
     tabIndex={index}
     onClick={updateAnswer}
   >
     {answer}
-  </li>
+  </div>
 );
 
 AnswerListEntry.propTypes = propTypes;

@@ -49,7 +49,7 @@ class TriviaCard extends React.Component {
       <div className={`container-fluid class=${this.state.visibility}`}>
         <div className="gameBackground row align-items-center justify-content-md-center">
           <div className="card col-lg-4 col-md-5 col-sm-9 col-xs-12 triviaCard animated slideInLeft">
-            <div className="card-block">{question}</div>
+            <div className="card-block presenterText">{question}</div>
 
             <AnswerList answers={answers} currentAns={currentAns} updateAnswer={this.updateAnswer} />
 
