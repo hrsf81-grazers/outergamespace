@@ -30,7 +30,7 @@ body {
 
 .gameBackground {
 	height: 70vw;
-	background-image: url(../mars-surface.jpg);	
+	background-image: url(../mars-surface.jpg);
 	z-index: 250;
 }
 
@@ -147,4 +147,8 @@ body {
 	margin-right: 0px;
 	padding: 0px 0px;
 	height: 35px;
+}
+
+.hide {
+  display: none;
 }

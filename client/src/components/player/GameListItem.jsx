@@ -55,9 +55,12 @@ class GameListItem extends React.Component {
       return <div />;
     }
     return (
-      <div onClick={this.handleClick}>
-        <p>{this.props.game.host_username}'s Game</p>
-        <DropDown title={this.props.game.host_username} />
+      <div >
+        <DropDown
+          title={this.props.game.host_username}
+          game={this.props.game}
+          click={this.handleClick}
+        />
         {
           // <p>Room Code: {this.props.game.room_id}</p>
           // <p># Questions: {this.props.game.num_questions}</p>
