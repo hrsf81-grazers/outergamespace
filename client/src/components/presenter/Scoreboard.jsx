@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import ScoreboardEntry from './ScoreboardEntry';
 import _ from 'underscore';
 
 const propTypes = {
@@ -23,9 +24,10 @@ const Scoreboard = ({ players, final, restartGame }) => {
   return (
     <div className="container-fluid gameBackground">
       <div className="row align-items-center justify-content-md-center">
-        <div className="card col-sm-9 animated-slideInLeft">
+        <div className="card scoreboard col-sm-5 animated-slideInLeft">
           <div className="card-block">
-            <div className="list-group list-group-flush">
+            <div className="card-title presenterText mb-3">Players</div>
+            <div className="list-group list-group-flush scoreboardList">
               {sortedPlayers.map(player =>
                 <ScoreboardEntry player={player}/>
               )}

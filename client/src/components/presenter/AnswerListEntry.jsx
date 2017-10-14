@@ -7,7 +7,7 @@ const propTypes = {
 };
 
 const AnswerListEntry = ({ answer, selected }) => (
-  <div className={`list-group-item ${selected && 'selected'}`} >
+  <div className={`list-group-item presenterText${selected && 'selected'}`} >
     <span className="answer presenterText">
       {answer}‎
       {
