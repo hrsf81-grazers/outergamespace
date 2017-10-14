@@ -97,9 +97,9 @@ class SocketClientInterface {
   handlePlayerShowAnswer(answer) {
     this.callbacks.player.showAnswer(answer);
   }
-  handlePlayerShowRoundScores() {
+  handlePlayerShowRoundScores(players) {
     // null for now since there's no data to send back
-    this.callbacks.player.showRoundScores(null);
+    this.callbacks.player.showRoundScores(players);
   }
   handlePlayerShowFinalScores() {
     // null for now since there's no data to send back
