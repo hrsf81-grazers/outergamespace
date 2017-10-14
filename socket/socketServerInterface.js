@@ -126,7 +126,7 @@ class SocketServerInterface {
       // callback(null);
       // this.emitNextQuestion(socket);
       const roomId = getRoom(socket);
-      db.updateGameStart(roomId)
+      db.removeGame(roomId)
         .then(() => {
           callback(null);
           this.emitGameStarted(roomId);

@@ -145,7 +145,7 @@ db.getAllUsers = () => {
 db.addGame = (game) => {
   const { roomId, username, noOfQuestions, timePerQuestion, maxPlayers } = game;
   const queryString = `
-    INSERT INTO games
+    INSERT INTO open_games
     (room_id, host_username, num_questions, time_per_question, max_players)
     VALUES
     ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers})
@@ -154,32 +154,27 @@ db.addGame = (game) => {
 };
 
 db.getGames = () => {
-  const queryString = 'SELECT * FROM games WHERE is_started = 0 AND num_players < max_players';
+  const queryString = 'SELECT * FROM open_games WHERE num_players < max_players';
   return executeQuery(queryString);
 };
 
 db.getGame = (roomId) => {
-  const queryString = `SELECT * FROM games WHERE room_id = '${roomId}'`;
+  const queryString = `SELECT * FROM open_games WHERE room_id = '${roomId}'`;
   return executeQuery(queryString);
 };
 
 db.addGamePlayer = (roomId) => {
-  const queryString = `UPDATE games SET num_players = num_players + 1 WHERE room_id = '${roomId}'`;
+  const queryString = `UPDATE open_games SET num_players = num_players + 1 WHERE room_id = '${roomId}'`;
   return executeQuery(queryString);
 };
 
 db.removeGamePlayer = (roomId) => {
-  const queryString = `UPDATE games SET num_players = num_players - 1 WHERE room_id = '${roomId}'`;
-  return executeQuery(queryString);
-};
-
-db.updateGameStart = (roomId) => {
-  const queryString = `UPDATE games SET is_started = 1 WHERE room_id = '${roomId}'`;
+  const queryString = `UPDATE open_games SET num_players = num_players - 1 WHERE room_id = '${roomId}'`;
   return executeQuery(queryString);
 };
 
 db.removeGame = (roomId) => {
-  const queryString = `DELETE FROM games WHERE room_id = '${roomId}'`;
+  const queryString = `DELETE FROM open_games WHERE room_id = '${roomId}'`;
   return executeQuery(queryString);
 };
 
