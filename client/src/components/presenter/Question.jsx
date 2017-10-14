@@ -45,8 +45,13 @@ class Question extends React.Component {
     const { correctAns } = this.state;
     return (
       <div className="container-fluid gameBackground">
+
         <div className="row align-items-center justify-content-center">
-          <div className="card-group animated slideInLeft">
+          <Timer seconds={time} counting={correctAns === ''} />
+        </div>
+
+        <div className="row align-items-center justify-content-center">
+          <div className="card-deck animated slideInLeft">
 
             <div className="card col-sm-10 presenterQuestionCard">
               <div className="card-body">
