@@ -1,12 +1,12 @@
 import React from 'react';
 import Join from './Join';
 import TriviaCard from './TriviaCard';
-import Question from './Question';
 import TextScreen from './TextScreen';
 import FrontPage from './FrontPage';
 import Lobby from './Lobby';
 import Information from './Information';
 import Host from '../presenter/Host';
+import Question from '../presenter/Question';
 import Scoreboard from '../presenter/Scoreboard';
 import axios from 'axios';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
@@ -43,7 +43,6 @@ class App extends React.Component {
     this.joinGame = this.joinGame.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
-    this.showAnswer = this.showAnswer.bind(this);
     this.showRoundScores = this.showRoundScores.bind(this);
     this.showFinalScores = this.showFinalScores.bind(this);
     this.hostDisconnectHandler = this.hostDisconnectHandler.bind(this);
@@ -54,7 +53,6 @@ class App extends React.Component {
     this.socketClientInterface.listenForPlayerEvents();
     // register the callback handlers
     this.socketClientInterface.registerCallbackPlayerNextQuestion(this.nextQuestion);
-    this.socketClientInterface.registerCallbackPlayerShowAnswer(this.showAnswer);
     this.socketClientInterface.registerCallbackPlayerShowRoundScores(this.showRoundScores);
     this.socketClientInterface.registerCallbackPlayerShowFinalScores(this.showFinalScores);
     this.socketClientInterface.registerCallbackPlayerHostDisconnect(this.hostDisconnectHandler);
@@ -204,10 +202,6 @@ class App extends React.Component {
     this.setScreen('wait');
   }
 
-  showAnswer() {
-    this.setScreen('roundScores');
-  }
-
   showRoundScores(players) {
     this.setState({
       players: players
@@ -241,7 +235,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { screen, timePerQuestion, question, answers } = this.state;
+    const { screen, timePerQuestion, question, answers, players } = this.state;
 
     if (screen === 'front') {
       return <FrontPage handleLogin={this.handleLogin}/>;
@@ -273,9 +267,17 @@ class App extends React.Component {
         />
       );
     } else if (screen === 'answered') {
-      return <Information text={this.state.informationText} visibility={this.state.informationRender}/>;
+      return (
+        <Question
+          question={question}
+          answers={answers}
+          players={players}
+          time={timePerQuestion}
+          socketClientInterface={this.socketClientInterface}
+        />
+      );
     } else if (screen === 'roundScores') {
-      return <Scoreboard players={this.state.players} />;
+      return <Scoreboard players={players} />;
     } else if (screen === 'finalScores') {
       return <Information text={this.state.informationText} btnText={'Play Again'} btnOnClick={this.leaveGame} visibility={this.state.informationRender}/>;
     } else if (screen === 'hostDisconnect') {
