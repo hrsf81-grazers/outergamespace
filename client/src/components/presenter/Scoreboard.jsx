@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import _ from 'underscore';
 
@@ -12,6 +13,10 @@ const defaultProps = {
   final: false,
   restartGame: () => {},
 };
+
+const updateUserScore = (username, gameScore) => (
+  axios.post('/user', { username, gameScore })
+);
 
 const Scoreboard = ({ players, final, restartGame }) => {
   const sortedPlayers = _.sortBy(players, 'score').reverse();
@@ -28,9 +33,13 @@ const Scoreboard = ({ players, final, restartGame }) => {
           </div>
 
           <div className="table-col">
-            {sortedPlayers.map(player => (
-              <div key={player.username} className="table-row" >{player.score}</div>
-            ))}
+            {sortedPlayers.map((player) => {
+              if (final) {
+                updateUserScore(player.username, player.score)
+                  .then(() => 'done');
+              }
+              return (<div key={player.username} className="table-row" >{player.score}</div>);
+            })}
           </div>
         </div>
       </div>
