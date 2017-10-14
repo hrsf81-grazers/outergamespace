@@ -34,9 +34,8 @@ body {
 	z-index: 250;
 }
 
-.triviaCard, .createRoom {
-	height: 315px;
-	background-color: rgba(255, 255, 255, 0.26);
+.triviaCard, .createRoom, .scoreboard {
+	background-color: rgba(255, 255, 255, 0.35);
 	color: #FFFFFF;
 }
 
@@ -49,12 +48,8 @@ body {
 .informationCard {
 	height: 200px;
 	width: 125px;
-	background-color: rgba(0, 0, 0, 0.38);
+	background-color: rgba(0, 0, 0, 0.35);
 	color: #FFFFFF;
-}
-
-.answer {
-	background-color: rgba(0, 0, 0, 0.33)
 }
 
 /* =============
@@ -155,8 +150,9 @@ body {
 
 
 .presenterQuestionCard {
-	background-color: rgba(255, 255, 255, 0.26);
+	background-color: rgba(255, 255, 255, 0.35);
 	color: #FFFFFF;
+	padding: 0 0;
 }
 
 .answered {
@@ -165,7 +161,7 @@ body {
 }
 
 .unanswered {
-	color: rgba(126, 126, 126, 0.5)
+	color: rgba(126, 126, 126, 0.35)
 }
 
 .countdown {
@@ -189,4 +185,16 @@ body {
 
 .danger {
 	background-color: rgb(255, 0, 0)
+}
+
+.list-group-item {
+	background-color: rgba(0, 0, 0, 0.35)
+}
+
+.scoreboard {
+	height: 350px;
+}
+
+.scoreboardList {
+	margin: 0 15 20 15;
 }

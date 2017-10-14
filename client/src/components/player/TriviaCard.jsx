@@ -46,15 +46,15 @@ class TriviaCard extends React.Component {
     const { question, answers, time } = this.props;
     const { currentAns } = this.state.currentAnswer;
     return(
-      <div className={`container-fluid class=${this.state.visibility}`}>
-        <div className="gameBackground row align-items-center justify-content-md-center">
+      <div className={`container-fluid gameBackground`}>
+        <div className="row align-items-center justify-content-md-center">
           <div className="card col-lg-4 col-md-5 col-sm-9 col-xs-12 triviaCard animated slideInLeft">
             <div className="card-block presenterText">{question}</div>
 
             <AnswerList answers={answers} currentAns={currentAns} updateAnswer={this.updateAnswer} />
 
             <div className="screen-bottom">
-              <button disabled={currentAns === ''} onClick={this.sendAnswer} >
+              <button className="btn btn-outline-light presenterText mt-3" disabled={currentAns === ''} onClick={this.sendAnswer} >
                 Submit (<Timer seconds={time} />)
               </button>
             </div>

@@ -11,7 +11,7 @@ const propTypes = {
 };
 
 const AnsweredPlayerListEntry = ({ player: { username, answered } }) => (
-  <div className={`answered-player-list-entry presenterText ${!answered && 'unanswered'}`} >{username}</div>
+  <div className={`list-group-item presenterText ${!answered && 'unanswered'}`} >{username}</div>
 );
 
 AnsweredPlayerListEntry.propTypes = propTypes;

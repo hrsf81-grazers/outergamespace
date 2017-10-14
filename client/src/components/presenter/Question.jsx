@@ -54,7 +54,7 @@ class Question extends React.Component {
         <div className="row align-items-center justify-content-center">
           <div className="card-deck animated slideInLeft">
 
-            <div className="card col-sm-10 presenterQuestionCard">
+            <div className="card col-sm-10 presenterQuestionCard align-items-center justify-content-center">
               <div className="card-body">
 
                 <div className="card-title presenterText">
