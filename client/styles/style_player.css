@@ -34,10 +34,16 @@ body {
 	z-index: 250;
 }
 
-.triviaCard {
+.triviaCard, .createRoom {
 	height: 315px;
 	background-color: rgba(255, 255, 255, 0.26);
 	color: #FFFFFF;
+}
+
+.createRoom {
+	margin: 0 auto;
+	position: relative;
+	top: 200px;
 }
 
 .informationCard {
@@ -66,6 +72,11 @@ body {
 	position: absolute;
 	font-style: bold;
 	z-index: 1000;
+}
+
+.presenterText {
+	font-family: 'Comfortaa';
+	font-size: 20px;
 }
 
 .loginText, .guestText, .registerText, .guestTextTop, .registerTextTop {

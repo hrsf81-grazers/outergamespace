@@ -67,52 +67,46 @@ class CreateRoom extends React.Component {
   render() {
     const { noOfQuestions, timePerQuestion, maxPlayers, errMsg } = this.state;
     return (
-      <div className="screen">
-        <div className="screen-top">Game Settings</div>
-
-        <div className="screen-middle screen-bordered" >
-          <div className="table-body">
-            <div className="table-col">
-              <div className="table-row">No. of Questions</div>
-              <div className="table-row">Time per Question (Seconds)</div>
-              <div className="table-row">Maximum No. of Players</div>
-            </div>
-
-            <div className="table-col table-input">
-              <div className="table-row">
-                <input
+      <div className="container-fluid gameBackground">
+        <div className="row align-items-center">
+          <div className={`card col-sm-5 createRoom animated slideInLeft`}>
+            <div className="card-body">
+              <div className="card-title presenterText createTitle">Game Settings</div>
+    
+              <div className="form-group row">
+                <div className="input-group-addon presenterText ml-3">No of Questions</div>
+                <input                   
                   type="text"
                   value={noOfQuestions}
                   placeholder="10"
-                  onChange={e => this.onChangeInput(e, 'noOfQuestions')}
-                />
+                  onChange={e => this.onChangeInput(e, 'noOfQuestions')}>
+                </input>
               </div>
 
-              <div className="table-row">
-                <input
+              <div className="form-group row">
+                <div className="input-group-addon presenterText ml-3">Time per Question (Seconds)</div>
+                <input                   
                   type="text"
                   value={timePerQuestion}
-                  placeholder="15"
-                  onChange={e => this.onChangeInput(e, 'timePerQuestion')}
-                />
+                  placeholder="20"
+                  onChange={e => this.onChangeInput(e, 'timePerQuestion')}>
+                </input>
               </div>
 
-              <div className="table-row">
-                <input
+              <div className="form-group row">
+                <div className="input-group-addon presenterText ml-3">Maximum No of Players</div>
+                <input                   
                   type="text"
                   value={maxPlayers}
                   placeholder="6"
-                  onChange={e => this.onChangeInput(e, 'maxPlayers')}
-                />
+                  onChange={e => this.onChangeInput(e, 'maxPlayers')}>
+                </input>
               </div>
+
+              <button onClick={this.createRoom} className="btn btn-transparent-light presenterText">Create Room</button>
+    
             </div>
           </div>
-
-          {errMsg && <div className="table-footer err-msg">{errMsg}</div>}
-        </div>
-
-        <div className="screen-bottom">
-          <button onClick={this.createRoom} >Create Room</button>
         </div>
       </div>
     );
@@ -122,3 +116,57 @@ class CreateRoom extends React.Component {
 CreateRoom.propTypes = propTypes;
 
 export default CreateRoom;
+
+// render() {
+//   const { noOfQuestions, timePerQuestion, maxPlayers, errMsg } = this.state;
+//   return (
+//     <div className="screen">
+//       <div className="screen-top">Game Settings</div>
+
+//       <div className="screen-middle screen-bordered" >
+//         <div className="table-body">
+//           <div className="table-col">
+//             <div className="table-row">No. of Questions</div>
+//             <div className="table-row">Time per Question (Seconds)</div>
+//             <div className="table-row">Maximum No. of Players</div>
+//           </div>
+
+//           <div className="table-col table-input">
+//             <div className="table-row">
+//               <input
+//                 type="text"
+//                 value={noOfQuestions}
+//                 placeholder="10"
+//                 onChange={e => this.onChangeInput(e, 'noOfQuestions')}
+//               />
+//             </div>
+
+//             <div className="table-row">
+//               <input
+//                 type="text"
+//                 value={timePerQuestion}
+//                 placeholder="15"
+//                 onChange={e => this.onChangeInput(e, 'timePerQuestion')}
+//               />
+//             </div>
+
+//             <div className="table-row">
+//               <input
+//                 type="text"
+//                 value={maxPlayers}
+//                 placeholder="6"
+//                 onChange={e => this.onChangeInput(e, 'maxPlayers')}
+//               />
+//             </div>
+//           </div>
+//         </div>
+
+//         {errMsg && <div className="table-footer err-msg">{errMsg}</div>}
+//       </div>
+
+//       <div className="screen-bottom">
+//         <button onClick={this.createRoom} >Create Room</button>
+//       </div>
+//     </div>
+//   );
+// }
