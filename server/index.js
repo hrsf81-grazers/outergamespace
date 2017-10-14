@@ -116,13 +116,20 @@ app.get('/games', (req, res) => {
 
 app.get('/game/:roomId', (req, res) => {
   const roomId = req.params.roomId;
+<<<<<<< HEAD
   console.log(roomId);
+=======
+>>>>>>> Register new game event listener and callback in the GameList component
   db.getGame(roomId)
     .then((results) => {
       res.send(results);
     })
     .catch((err) => {
+<<<<<<< HEAD
       res.status(500).send('Error retrieving game');
+=======
+      res.status(500).send('Error retrieving games data');
+>>>>>>> Register new game event listener and callback in the GameList component
       console.error(err);
     });
 });
