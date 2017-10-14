@@ -44,27 +44,48 @@ class Question extends React.Component {
     const { question, answers, players, time } = this.props;
     const { correctAns } = this.state;
     return (
-      <div className="screen screen-horizontal">
-        <div className="screen-main">
-          <div className="screen-top">
-            {question}
-          </div>
-
-          <AnswerList answers={answers} correctAns={correctAns} />
-        </div>
-
-        <div className="screen-sidebar">
-          <Timer seconds={time} counting={correctAns === ''} />
-
-          <div className="screen-middle screen-bordered">
-            <AnsweredPlayerList players={players} />
+      <div className="container-fluid gameBackground">
+        <div className="row align-items-center">
+          <div className="card col-sm-5 presenterQuestionCard animated slideInLeft">
+            <div className="card-body">
+              <div className="list-group">
+                <AnswerList answers={answers} correctAns={correctAns} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    );
+    )
   }
+
 }
 
 Question.propTypes = propTypes;
 
 export default Question;
+
+// original render method before Bootstrap 4 refactor:
+
+// render() {
+//   const { question, answers, players, time } = this.props;
+//   const { correctAns } = this.state;
+//   return (
+//     <div className="screen screen-horizontal">
+//       <div className="screen-main">
+//         <div className="screen-top">
+//           {question}
+//         </div>
+
+//         <AnswerList answers={answers} correctAns={correctAns} />
+//       </div>
+
+//       <div className="screen-sidebar">
+//         <Timer seconds={time} counting={correctAns === ''} />
+
+//         <div className="screen-middle screen-bordered">
+//           <AnsweredPlayerList players={players} />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
