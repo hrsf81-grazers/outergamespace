@@ -27,6 +27,7 @@ class Question extends React.Component {
   componentDidMount() {
     // register callbacks
     this.props.socketClientInterface.registerCallbackHostShowAnswer(this.setCorrectAns);
+    this.props.socketClientInterface.registerCallbackPlayerShowAnswer(this.setCorrectAns);
   }
 
   componentWillUnmount() {
