@@ -11,14 +11,16 @@ import axios from 'axios';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
-  constructor() {
+  constructor({ login, username }) {
+    let firstScreen = login ? 'lobby' : 'front';
+    let name = username || '';
     super();
     this.state = {
-      screen: 'front',
+      screen: firstScreen,
       timePerQuestion: 0,
       question: '',
       answers: [],
-      username: '',
+      username: name,
       // visibilility states for animation renders
       triviaCardRender: 'invisible',
       informationRender: 'invisible',
@@ -272,7 +274,15 @@ class App extends React.Component {
     } else if (screen === 'roundScores') {
       return <Information text={this.state.informationText} visibility={this.state.informationRender}/>;
     } else if (screen === 'finalScores') {
-      return <Information text={this.state.informationText} btnText={'Play Again'} btnOnClick={this.leaveGame} visibility={this.state.informationRender}/>;
+      // return <Information text={this.state.informationText} btnText={'Play Again'} btnOnClick={this.leaveGame} visibility={this.state.informationRender}/>;
+      return (
+        <Lobby
+          username={this.state.username}
+          createGame={this.createGame}
+          joinGame={this.joinGame}
+          socketClientInterface={this.socketClientInterface}
+        />
+      );
     } else if (screen === 'hostDisconnect') {
       return <Information text={this.state.informationText} visibility={this.state.informationRender}/>;
     }

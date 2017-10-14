@@ -18,7 +18,7 @@ const updateUserScore = (username, gameScore) => (
   axios.post('/user', { username, gameScore })
 );
 
-const Scoreboard = ({ players, final, restartGame }) => {
+const Scoreboard = ({ players, final, restartGame, returnToLobby }) => {
   const sortedPlayers = _.sortBy(players, 'score').reverse();
   return (
     <div className="screen">
@@ -45,6 +45,7 @@ const Scoreboard = ({ players, final, restartGame }) => {
       </div>
 
       <div className="screen-bottom">
+        {final && <button onClick={returnToLobby} >Return to Lobby</button>}
         {final && <button onClick={restartGame} >New Game</button>}
       </div>
     </div>

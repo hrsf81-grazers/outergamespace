@@ -5,6 +5,7 @@ import WaitingRoom from './WaitingRoom';
 import Scoreboard from './Scoreboard';
 import Question from './Question';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
+import App from '../player/App';
 
 const propTypes = {
   username: PropTypes.string.isRequired
@@ -34,6 +35,7 @@ class Host extends React.Component {
     this.showRoundScores = this.showRoundScores.bind(this);
     this.showFinalScores = this.showFinalScores.bind(this);
     this.restartGame = this.restartGame.bind(this);
+    this.returnToLobby = this.returnToLobby.bind(this);
   }
 
   componentDidMount() {
@@ -111,6 +113,12 @@ class Host extends React.Component {
     });
   }
 
+  returnToLobby() {
+    this.socketClientInterface.connection.emit('endGame', () => {
+      this.setScreen('lobby');
+    });
+  }
+
   render() {
     const { screen, roomId, gameConfig, players, question, answers, finalScores } = this.state;
 
@@ -143,7 +151,16 @@ class Host extends React.Component {
     } else if (screen === 'roundScores') {
       return <Scoreboard players={players} />;
     } else if (screen === 'finalScores') {
-      return <Scoreboard players={finalScores} final restartGame={this.restartGame} />;
+      return (
+        <Scoreboard
+          players={finalScores}
+          final
+          restartGame={this.restartGame}
+          returnToLobby={this.returnToLobby}
+        />
+      );
+    } else if (screen === 'lobby') {
+      return <App login username={this.props.username} />;
     }
     return <div />;
   }
