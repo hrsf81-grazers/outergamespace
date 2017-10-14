@@ -42,6 +42,8 @@ body {
 
 .createRoom {
 	margin: 0 auto;
+	position: relative;
+	top: 200px;
 }
 
 .informationCard {
