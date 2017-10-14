@@ -34,7 +34,6 @@ class Host extends React.Component {
     this.nextQuestion = this.nextQuestion.bind(this);
     this.showRoundScores = this.showRoundScores.bind(this);
     this.showFinalScores = this.showFinalScores.bind(this);
-    // this.restartGame = this.restartGame.bind(this);
     this.returnToLobby = this.returnToLobby.bind(this);
   }
 
@@ -98,20 +97,6 @@ class Host extends React.Component {
     }));
     this.setScreen('finalScores');
   }
-
-  // restartGame() {
-  //   this.socketClientInterface.connection.emit('endGame', () => {
-  //     this.setState({
-  //       screen: 'create',
-  //       roomId: '',
-  //       gameConfig: {},
-  //       players: [],
-  //       question: '',
-  //       answers: [],
-  //       finalScores: [],
-  //     });
-  //   });
-  // }
 
   returnToLobby() {
     this.socketClientInterface.connection.emit('endGame', () => {
