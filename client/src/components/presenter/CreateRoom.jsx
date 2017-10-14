@@ -67,52 +67,42 @@ class CreateRoom extends React.Component {
   render() {
     const { noOfQuestions, timePerQuestion, maxPlayers, errMsg } = this.state;
     return (
-      <div className="screen">
-        <div className="screen-top">Game Settings</div>
-
-        <div className="screen-middle screen-bordered" >
-          <div className="table-body">
-            <div className="table-col">
-              <div className="table-row">No. of Questions</div>
-              <div className="table-row">Time per Question (Seconds)</div>
-              <div className="table-row">Maximum No. of Players</div>
-            </div>
-
-            <div className="table-col table-input">
-              <div className="table-row">
-                <input
+      <div className="container-fluid">
+        <div className="card">
+          <div className="card-body">
+            <div className="card-title">Game Settings</div>
+  
+              <div class="form-group row">
+                <div class="input-group-addon">No of Questions</div>
+                <input                   
                   type="text"
                   value={noOfQuestions}
                   placeholder="10"
-                  onChange={e => this.onChangeInput(e, 'noOfQuestions')}
-                />
+                  onChange={e => this.onChangeInput(e, 'noOfQuestions')}>
+                </input>
               </div>
-
-              <div className="table-row">
-                <input
+  
+              <div class="form-group row">
+                <div class="input-group-addon">Time per Question (Seconds)</div>
+                <input                   
                   type="text"
                   value={timePerQuestion}
-                  placeholder="15"
-                  onChange={e => this.onChangeInput(e, 'timePerQuestion')}
-                />
+                  placeholder="20"
+                  onChange={e => this.onChangeInput(e, 'timePerQuestion')}>
+                </input>
               </div>
-
-              <div className="table-row">
-                <input
+  
+              <div class="form-group row">
+                <div class="input-group-addon">Maximum No of Players</div>
+                <input                   
                   type="text"
                   value={maxPlayers}
                   placeholder="6"
-                  onChange={e => this.onChangeInput(e, 'maxPlayers')}
-                />
+                  onChange={e => this.onChangeInput(e, 'maxPlayers')}>
+                </input>
               </div>
-            </div>
+  
           </div>
-
-          {errMsg && <div className="table-footer err-msg">{errMsg}</div>}
-        </div>
-
-        <div className="screen-bottom">
-          <button onClick={this.createRoom} >Create Room</button>
         </div>
       </div>
     );
@@ -122,3 +112,4 @@ class CreateRoom extends React.Component {
 CreateRoom.propTypes = propTypes;
 
 export default CreateRoom;
+
