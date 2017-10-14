@@ -54,7 +54,7 @@ class TriviaCard extends React.Component {
             <AnswerList answers={answers} currentAns={currentAns} updateAnswer={this.updateAnswer} />
 
             <div className="screen-bottom">
-              <button disabled={currentAns === ''} onClick={this.sendAnswer} >
+              <button className="btn btn-outline-light presenterText" disabled={currentAns === ''} onClick={this.sendAnswer} >
                 Submit (<Timer seconds={time} />)
               </button>
             </div>

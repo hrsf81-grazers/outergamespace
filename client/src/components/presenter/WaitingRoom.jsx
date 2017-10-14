@@ -28,25 +28,56 @@ class WaitingRoom extends React.Component {
   render() {
     const { roomId, players } = this.props;
     return (
-      <div className="screen">
-        <div className="screen-top" >Room Code: {roomId}</div>
+      <div className="container-fluid gameBackground">
+        <div className="row align-items-center justify-content-center">
+          <div className="card col-sm-5 presenterQuestionCard animated slideInLeft">
+            <div className="card-body">
 
-        <div className="screen-middle screen-bordered" >
-          {
-            players.length === 0
-              ? 'Waiting for players to join...'
-              : players.map(player => <div key={player.username} >{player.username}</div>)
-          }
-        </div>
+              <div className="list-group list-group-flush">
+                {
+                  players.length === 0
+                    ? <div className="list-entry presenterText">'Waiting for players to join...'</div>
+                    : players.map(player => <div className="presenterText list-entry" key={player.username} >{player.username}</div>)
+                }
+              </div>
 
-        <div className="screen-bottom">
-          <button disabled={players.length === 0} onClick={this.startGame} >Start Game</button>
+              <button 
+                className="presenterText btn btn-outline-light"
+                disabled={players.length === 0} 
+                onClick={this.startGame} >
+                Start Game
+              </button>
+
+            </div>
+          </div>
         </div>
       </div>
-    );
+    )
   }
+
 }
 
 WaitingRoom.propTypes = propTypes;
 
 export default WaitingRoom;
+
+// render() {
+//   const { roomId, players } = this.props;
+//   return (
+//     <div className="screen">
+//       <div className="screen-top" >Room Code: {roomId}</div>
+
+//       <div className="screen-middle screen-bordered" >
+//         {
+//           players.length === 0
+//             ? 'Waiting for players to join...'
+//             : players.map(player => <div key={player.username} >{player.username}</div>)
+//         }
+//       </div>
+
+//       <div className="screen-bottom">
+//         <button disabled={players.length === 0} onClick={this.startGame} >Start Game</button>
+//       </div>
+//     </div>
+//   );
+// }
