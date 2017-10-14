@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
+import DropDown from './DropDown';
 
 const propTypes = {
   game: PropTypes.shape({
@@ -54,12 +55,18 @@ class GameListItem extends React.Component {
       return <div />;
     }
     return (
-      <div onClick={this.handleClick}>
-        <p>Room Code: {this.props.game.room_id}</p>
-        <p>Hosted By: {this.props.game.host_username}</p>
-        <p># Questions: {this.props.game.num_questions}</p>
-        <p>Max Players: {this.props.game.max_players}</p>
-        <p># Players: {this.state.numPlayers}</p>
+      <div >
+        <DropDown
+          title={this.props.game.host_username}
+          game={this.props.game}
+          click={this.handleClick}
+        />
+        {
+          // <p>Room Code: {this.props.game.room_id}</p>
+          // <p># Questions: {this.props.game.num_questions}</p>
+          // <p>Max Players: {this.props.game.max_players}</p>
+          // <p># Players: {this.state.numPlayers}</p>
+        }
       </div>
     );
   }
