@@ -17,12 +17,10 @@ class GameList extends React.Component {
     };
 
     this.addGame = this.addGame.bind(this);
+    this.removeGame = this.removeGame.bind(this);
   }
 
   componentDidMount() {
-    this.props.socketClientInterface.listenForHostEvents();
-    this.props.socketClientInterface.registerCallbackHostNewGame(this.addGame);
-
     fetch('/games')
       .then(res => res.json())
       .then((data) => {
@@ -31,10 +29,9 @@ class GameList extends React.Component {
         });
       })
       .catch(console.error);
-  }
 
-  componentWillUnmount() {
-    this.props.socketClientInterface.removeListenersForHostEvents();
+    this.props.socketClientInterface.registerCallbackPlayerNewGame(this.addGame);
+    this.props.socketClientInterface.registerCallbackPlayerStartGame(this.removeGame);
   }
 
   addGame(roomId) {
@@ -44,6 +41,12 @@ class GameList extends React.Component {
         this.setState({ games: this.state.games.concat(data[0]) });
       })
       .catch(console.error);
+  }
+
+  removeGame(roomId) {
+    this.setState({
+      games: this.state.games.filter(game => game.room_id !== roomId)
+    });
   }
 
   render() {
@@ -60,7 +63,10 @@ class GameList extends React.Component {
       <div>
         <ul>{gameListItems}</ul>
         <div>
-          <button className="btn btn-light ml-1 mr-3" onClick={this.props.createGame}>Create Game</button>
+          <button
+            className="btn btn-light ml-1 mr-3"
+            onClick={this.props.createGame}
+          >Create Game</button>
         </div>
       </div>
     );

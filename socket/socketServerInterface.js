@@ -59,7 +59,6 @@ class SocketServerInterface {
 
   listenForPregameEvents() {
     this.io.on('connection', (socket) => {
-      socket.join('lobby');
       socket.on('createRoom', this.handleCreateRoom.bind(this, socket));
       socket.on('joinRoom', this.handleJoinRoom.bind(this, socket));
     });
@@ -85,13 +84,11 @@ class SocketServerInterface {
       db.addGame(Object.assign({ roomId: roomId, username: username }, config))
         .then(() => {
           callback(null, roomId);
-          socket.leave('lobby');
           socket.join(roomId);
           this.listenForHostEvents(socket);
           this.emitNewGame(roomId);
         })
         .catch(console.error);
-
     } catch (error) {
       callback(error.message);
     }
@@ -128,9 +125,10 @@ class SocketServerInterface {
       // callback(null);
       // this.emitNextQuestion(socket);
       const roomId = getRoom(socket);
-      db.updateGameStart(roomId)
+      db.removeGame(roomId)
         .then(() => {
           callback(null);
+          this.emitGameStarted(roomId);
           this.emitNextQuestion(socket);
         })
         .catch(console.error);
@@ -196,11 +194,15 @@ class SocketServerInterface {
   /* EVENT EMITTERS */
 
   emitNewGame(roomId) {
-    this.io.to('lobby').emit('newGame', roomId);
+    this.io.emit('newGame', roomId);
   }
 
   emitJoinGame(roomId) {
-    this.io.to('lobby').emit('joinGame', roomId);
+    this.io.emit('joinGame', roomId);
+  }
+
+  emitGameStarted(roomId) {
+    this.io.emit('gameStarted', roomId);
   }
 
   emitLeaveGame(roomId) {
