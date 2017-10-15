@@ -117,7 +117,7 @@ class Lobby extends React.Component {
               users={this.state.users}
               leaderboardRender={this.state.leaderboardRender}
             />
-            <div className={`col-sm-5 chat-window mr-3 ${this.state.chatPanelRender} flex`}>
+            <div className={`col-sm-5 chat-window mr-3 ${this.state.chatPanelRender}`}>
               <div className="chatMessages">
                 {chatMessages}
               </div>
