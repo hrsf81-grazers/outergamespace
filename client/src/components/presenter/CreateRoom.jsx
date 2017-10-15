@@ -8,7 +8,7 @@ const DEFAULT_CONFIG = {
   timePerQuestion: '20',
   maxPlayers: '6',
   difficulty: 'any',
-  category: 'any'
+  category: { id: -1, name: 'any' }
 };
 
 const propTypes = {
@@ -18,7 +18,7 @@ const propTypes = {
 };
 
 const difficultyLevels = [
-  'all',
+  'any',
   'easy',
   'medium',
   'hard'
@@ -50,12 +50,13 @@ class CreateRoom extends React.Component {
 
   onChangeInput(event, stateName) {
     const newState = event.target.value;
-    if (newState === ''
-        || !isNaN(newState)
-        || stateName === 'difficulty'
-        || stateName === 'category') {
+    if (newState === '' || !isNaN(newState) || stateName === 'difficulty') {
       this.setState({
         [stateName]: newState,
+      });
+    } else if (stateName === 'category') {
+      this.setState({
+        [stateName]: JSON.parse(newState)
       });
     }
   }
@@ -73,7 +74,8 @@ class CreateRoom extends React.Component {
       noOfQuestions: this.getConfig('noOfQuestions'),
       timePerQuestion: this.getConfig('timePerQuestion'),
       maxPlayers: this.getConfig('maxPlayers'),
-      difficulty: this.state.difficulty
+      difficulty: this.state.difficulty,
+      category: this.state.category
     };
   }
 
@@ -95,7 +97,7 @@ class CreateRoom extends React.Component {
       <option key={level} value={level}>{level}</option>
     );
     const categories = this.state.categories.map(category =>
-      <option key={category.id} value={category}>{category.name}</option>
+      <option key={category.id} value={JSON.stringify(category)}>{category.name}</option>
     );
     return (
       <div className="container-fluid gameBackground">
