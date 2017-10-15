@@ -21,12 +21,14 @@ class Lobby extends React.Component {
       gamePanelRender: 'hidden',
       leaderboardRender: 'hidden',
       chatInput: '',
-      users: []
+      users: [],
+      chatMessages: []
     };
 
     this.chatHandler = this.chatHandler.bind(this);
     this.joinGame = this.joinGame.bind(this);
     this.getAllUsers = this.getAllUsers.bind(this);
+    this.getChatMessages = this.getChatMessages.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +40,7 @@ class Lobby extends React.Component {
       });
     }, 600);
     this.getAllUsers();
+    this.getChatMessages();
   }
 
   getAllUsers() {
@@ -48,6 +51,17 @@ class Lobby extends React.Component {
         });
       })
       .catch(err => console.error(err));
+  }
+
+  getChatMessages() {
+    fetch('/messages')
+      .then(response => response.json())
+      .then((messages) => {
+        this.setState({
+          chatMessages: messages
+        });
+      })
+      .catch(console.error);
   }
 
   checkSubmit(event) {

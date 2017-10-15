@@ -138,5 +138,9 @@ app.get('/game/:roomId', (req, res) => {
     });
 });
 
+app.get('/messages', (req, res) => {
+  res.send(chat.messages);
+});
+
 // Export for testing
 module.exports = app;
