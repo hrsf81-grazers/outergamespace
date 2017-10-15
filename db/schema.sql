@@ -16,6 +16,7 @@ CREATE TABLE open_games(
   host_username VARCHAR(20) NOT NULL UNIQUE,
   num_questions INT NOT NULL,
   time_per_question INT NOT NULL,
+  category VARCHAR(50) NOT NULL,
   difficulty VARCHAR(10) NOT NULL,
   max_players INT NOT NULL,
   num_players INT NOT NULL DEFAULT 0

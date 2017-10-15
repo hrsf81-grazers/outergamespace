@@ -18,11 +18,6 @@ class SocketServerInterface {
   constructor(server, options) {
     this.io = socketIO(server, options);
     this.trivia = new Trivia();
-    openTriviaDB.fetchCategories()
-      .then((categories) => {
-        this.triviaCategories = categories;
-      })
-      .catch(console.error);
     this.scheduledEmission = null;
   }
 

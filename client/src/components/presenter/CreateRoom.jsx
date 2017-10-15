@@ -7,7 +7,8 @@ const DEFAULT_CONFIG = {
   noOfQuestions: '10',
   timePerQuestion: '20',
   maxPlayers: '6',
-  difficulty: 'all'
+  difficulty: 'any',
+  category: { id: -1, name: 'any' }
 };
 
 const propTypes = {
@@ -17,7 +18,7 @@ const propTypes = {
 };
 
 const difficultyLevels = [
-  'all',
+  'any',
   'easy',
   'medium',
   'hard'
@@ -26,7 +27,7 @@ const difficultyLevels = [
 class CreateRoom extends React.Component {
   constructor(props) {
     super(props);
-    this.state = Object.assign({}, DEFAULT_CONFIG, { errMsg: '' });
+    this.state = Object.assign({ categories: [{ id: -1, name: 'any' }] }, DEFAULT_CONFIG, { errMsg: '' });
 
     /* METHOD BINDING */
     this.onChangeInput = this.onChangeInput.bind(this);
@@ -36,11 +37,26 @@ class CreateRoom extends React.Component {
     this.getConfigObj = this.getConfigObj.bind(this);
   }
 
+  componentDidMount() {
+    fetch('/categories')
+      .then(res => res.json())
+      .then((categories) => {
+        this.setState({
+          categories: this.state.categories.concat(categories)
+        });
+      })
+      .catch(console.error);
+  }
+
   onChangeInput(event, stateName) {
     const newState = event.target.value;
     if (newState === '' || !isNaN(newState) || stateName === 'difficulty') {
       this.setState({
         [stateName]: newState,
+      });
+    } else if (stateName === 'category') {
+      this.setState({
+        [stateName]: JSON.parse(newState)
       });
     }
   }
@@ -58,7 +74,8 @@ class CreateRoom extends React.Component {
       noOfQuestions: this.getConfig('noOfQuestions'),
       timePerQuestion: this.getConfig('timePerQuestion'),
       maxPlayers: this.getConfig('maxPlayers'),
-      difficulty: this.state.difficulty
+      difficulty: this.state.difficulty,
+      category: this.state.category
     };
   }
 
@@ -79,6 +96,9 @@ class CreateRoom extends React.Component {
     const difficultyOptions = difficultyLevels.map(level =>
       <option key={level} value={level}>{level}</option>
     );
+    const categories = this.state.categories.map(category =>
+      <option key={category.id} value={JSON.stringify(category)}>{category.name}</option>
+    );
     return (
       <div className="container-fluid gameBackground">
         <div className="row align-items-center">
@@ -94,6 +114,14 @@ class CreateRoom extends React.Component {
                   placeholder="10"
                   onChange={e => this.onChangeInput(e, 'noOfQuestions')}>
                 </input>
+              </div>
+
+              <div className="form-group row">
+                <div className="input-group-addon presenterText ml-3">Category</div>
+                <select
+                  onChange={e => this.onChangeInput(e, 'category')}>
+                  {categories}
+                </select>
               </div>
 
               <div className="form-group row">
