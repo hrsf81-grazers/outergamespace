@@ -143,13 +143,14 @@ db.getAllUsers = () => {
 };
 
 db.addGame = (game) => {
-  const { roomId, username, noOfQuestions, timePerQuestion, maxPlayers } = game;
+  const { roomId, username, noOfQuestions, timePerQuestion, maxPlayers, difficulty } = game;
   const queryString = `
     INSERT INTO open_games
-    (room_id, host_username, num_questions, time_per_question, max_players)
+    (room_id, host_username, num_questions, time_per_question, difficulty, max_players)
     VALUES
-    ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers})
+    ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, '${difficulty}', ${maxPlayers})
  `;
+ console.log(queryString);
   return executeQuery(queryString);
 };
 
