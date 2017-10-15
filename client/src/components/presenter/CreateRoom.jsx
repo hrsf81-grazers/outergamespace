@@ -7,6 +7,7 @@ const DEFAULT_CONFIG = {
   noOfQuestions: '10',
   timePerQuestion: '20',
   maxPlayers: '6',
+  difficulty: 'all'
 };
 
 const propTypes = {
@@ -14,6 +15,13 @@ const propTypes = {
   username: PropTypes.string.isRequired,
   socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
+
+const difficultyLevels = [
+  'all',
+  'easy',
+  'medium',
+  'hard'
+];
 
 class CreateRoom extends React.Component {
   constructor(props) {
@@ -30,7 +38,7 @@ class CreateRoom extends React.Component {
 
   onChangeInput(event, stateName) {
     const newState = event.target.value;
-    if (newState === '' || !isNaN(newState)) {
+    if (newState === '' || !isNaN(newState) || stateName === 'difficulty') {
       this.setState({
         [stateName]: newState,
       });
@@ -50,6 +58,7 @@ class CreateRoom extends React.Component {
       noOfQuestions: this.getConfig('noOfQuestions'),
       timePerQuestion: this.getConfig('timePerQuestion'),
       maxPlayers: this.getConfig('maxPlayers'),
+      difficulty: this.state.difficulty
     };
   }
 
@@ -57,6 +66,7 @@ class CreateRoom extends React.Component {
     const gameConfig = this.getConfigObj();
     this.props.socketClientInterface.connection.emit('createRoom', this.props.username, gameConfig, (errMsg, roomId) => {
       if (errMsg) {
+        console.error(errMsg);
         this.setState({ errMsg });
       } else {
         this.props.createRoom(roomId, gameConfig);
@@ -65,17 +75,20 @@ class CreateRoom extends React.Component {
   }
 
   render() {
-    const { noOfQuestions, timePerQuestion, maxPlayers, errMsg } = this.state;
+    const { noOfQuestions, timePerQuestion, maxPlayers, difficulty, errMsg } = this.state;
+    const difficultyOptions = difficultyLevels.map(level =>
+      <option key={level} value={level}>{level}</option>
+    );
     return (
       <div className="container-fluid gameBackground">
         <div className="row align-items-center">
           <div className={`card col-sm-5 createRoom animated slideInLeft`}>
             <div className="card-body">
               <div className="card-title presenterText createTitle">Game Settings</div>
-    
+
               <div className="form-group row">
                 <div className="input-group-addon presenterText ml-3">No of Questions</div>
-                <input                   
+                <input
                   type="text"
                   value={noOfQuestions}
                   placeholder="10"
@@ -84,8 +97,16 @@ class CreateRoom extends React.Component {
               </div>
 
               <div className="form-group row">
+                <div className="input-group-addon presenterText ml-3">Difficulty</div>
+                <select
+                  onChange={e => this.onChangeInput(e, 'difficulty')}>
+                  {difficultyOptions}
+                </select>
+              </div>
+
+              <div className="form-group row">
                 <div className="input-group-addon presenterText ml-3">Time per Question (Seconds)</div>
-                <input                   
+                <input
                   type="text"
                   value={timePerQuestion}
                   placeholder="20"
@@ -95,7 +116,7 @@ class CreateRoom extends React.Component {
 
               <div className="form-group row">
                 <div className="input-group-addon presenterText ml-3">Maximum No of Players</div>
-                <input                   
+                <input
                   type="text"
                   value={maxPlayers}
                   placeholder="6"
@@ -104,7 +125,7 @@ class CreateRoom extends React.Component {
               </div>
 
               <button onClick={this.createRoom} className="btn btn-transparent-light presenterText">Create Room</button>
-    
+
             </div>
           </div>
         </div>
