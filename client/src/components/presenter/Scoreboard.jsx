@@ -19,7 +19,7 @@ const updateUserScore = (username, gameScore) => (
   axios.post('/user', { username, gameScore })
 );
 
-const Scoreboard = ({ players, final, returnToLobby }) => {
+const Scoreboard = ({ players, final, returnToLobby, username }) => {
   const sortedPlayers = _.sortBy(players, 'score').reverse();
   return (
     <div className="container-fluid gameBackground">
@@ -29,7 +29,7 @@ const Scoreboard = ({ players, final, returnToLobby }) => {
             <div className="card-title presenterText mb-3">Players</div>
             <div className="list-group list-group-flush scoreboardList">
               {sortedPlayers.map((player) => {
-                if (final) {
+                if (final && username) {
                   updateUserScore(player.username, player.score)
                     .then(() => 'done');
                 }
