@@ -20,8 +20,9 @@ openTriviaDB.fetchCategories = () => {
 
 openTriviaDB.fetchQuestions = (gameConfig, type = 'multiple') => {
   const { noOfQuestions, difficulty } = gameConfig;
+  //debugger;
   const difficultyFilter = difficulty === 'all' ? '' : `&difficulty=${difficulty}`;
-  const url = `${OPEN_TRIVIA_DB_URL}/api.php?amount=${num}&type=${type}${difficultyFilter}`;
+  const url = `${OPEN_TRIVIA_DB_URL}/api.php?amount=${noOfQuestions}&type=${type}${difficultyFilter}`;
   return new Promise((resolve, reject) => {
     request(url, (err, res, body) => {
       if (err) reject(err);

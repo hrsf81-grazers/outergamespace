@@ -16,6 +16,13 @@ const propTypes = {
   socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
 
+const difficultyLevels = [
+  'all',
+  'easy',
+  'medium',
+  'hard'
+];
+
 class CreateRoom extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +38,7 @@ class CreateRoom extends React.Component {
 
   onChangeInput(event, stateName) {
     const newState = event.target.value;
-    if (newState === '' || !isNaN(newState)) {
+    if (newState === '' || !isNaN(newState) || stateName === 'difficulty') {
       this.setState({
         [stateName]: newState,
       });
@@ -51,7 +58,7 @@ class CreateRoom extends React.Component {
       noOfQuestions: this.getConfig('noOfQuestions'),
       timePerQuestion: this.getConfig('timePerQuestion'),
       maxPlayers: this.getConfig('maxPlayers'),
-      difficulty: this.getConfig('difficulty')
+      difficulty: this.state.difficulty
     };
   }
 
@@ -59,6 +66,7 @@ class CreateRoom extends React.Component {
     const gameConfig = this.getConfigObj();
     this.props.socketClientInterface.connection.emit('createRoom', this.props.username, gameConfig, (errMsg, roomId) => {
       if (errMsg) {
+        console.error(errMsg);
         this.setState({ errMsg });
       } else {
         this.props.createRoom(roomId, gameConfig);
@@ -67,7 +75,10 @@ class CreateRoom extends React.Component {
   }
 
   render() {
-    const { noOfQuestions, timePerQuestion, maxPlayers, errMsg } = this.state;
+    const { noOfQuestions, timePerQuestion, maxPlayers, difficulty, errMsg } = this.state;
+    const difficultyOptions = difficultyLevels.map(level =>
+      <option key={level} value={level}>{level}</option>
+    );
     return (
       <div className="container-fluid gameBackground">
         <div className="row align-items-center">
@@ -83,6 +94,14 @@ class CreateRoom extends React.Component {
                   placeholder="10"
                   onChange={e => this.onChangeInput(e, 'noOfQuestions')}>
                 </input>
+              </div>
+
+              <div className="form-group row">
+                <div className="input-group-addon presenterText ml-3">Difficulty</div>
+                <select
+                  onChange={e => this.onChangeInput(e, 'difficulty')}>
+                  {difficultyOptions}
+                </select>
               </div>
 
               <div className="form-group row">
