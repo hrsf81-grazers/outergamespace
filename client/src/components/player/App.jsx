@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Join from './Join';
 import TriviaCard from './TriviaCard';
 import TextScreen from './TextScreen';
@@ -8,20 +9,19 @@ import Information from './Information';
 import Host from '../presenter/Host';
 import Question from '../presenter/Question';
 import Scoreboard from '../presenter/Scoreboard';
-import axios from 'axios';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
   constructor({ login, username }) {
-    let firstScreen = login ? 'lobby' : 'front';
-    let name = username || '';
+    const firstScreen = login ? 'lobby' : 'front';
+    const name = username || '';
     super();
     this.state = {
       screen: firstScreen,
       timePerQuestion: 0,
       question: '',
       answers: [],
-      username: '',
+      username: name,
       players: [],
       // visibilility states for animation renders
       triviaCardRender: 'invisible',
