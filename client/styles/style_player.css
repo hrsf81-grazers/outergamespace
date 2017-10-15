@@ -30,7 +30,7 @@ body {
 
 .gameBackground {
 	height: 70vw;
-	background-image: url(../mars-surface.jpg);	
+	background-image: url(../mars-surface.jpg);
 	z-index: 250;
 }
 
@@ -144,6 +144,7 @@ body {
 	height: 35px;
 }
 
+<<<<<<< HEAD
 .checkmark-placeholder {
 	margin-left: 15px;
 }
@@ -197,4 +198,8 @@ body {
 
 .scoreboardList {
 	margin: 0 15 20 15;
+=======
+.hide {
+  display: none;
+>>>>>>> 45fd11192a0b16c46e1c602dd770a687f7d42c68
 }
