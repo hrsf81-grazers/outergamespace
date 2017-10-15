@@ -61,7 +61,7 @@ class Game {
     checkConfigRange(config);
     this.config = Object.assign({}, DEFAULT_CONFIG, config);
 
-    openTriviaDB.fetchQuestions(this.config.noOfQuestions)
+    openTriviaDB.fetchQuestions(this.config)
       .then((results) => {
         this.questions = results;
       })
