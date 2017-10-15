@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 // how many rounds of salt https://www.npmjs.com/package/bcrypt
 const saltRounds = 10;
 const db = require('../db');
+const openTriviaDB = require('../helpers/openTriviaDb.js');
 
 const app = express();
 const server = require('http').Server(app);
@@ -37,11 +38,11 @@ app.use((req, res, next) => {
 /* ROUTE HANDLERS */
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(CLIENT_DIR, 'index_presenter.html'));
+  res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
 });
 
-app.get('/join', (req, res) => {
-  res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
+app.get('/host', (req, res) => {
+  res.sendFile(path.join(CLIENT_DIR, 'index_presenter.html'));
 });
 
 app.post('/login', (req, res) => {
@@ -101,6 +102,17 @@ app.post('/user', (req, res) => {
       console.error(err);
       res.status(500).send('Could not update user data');
     })
+});
+
+app.get('/categories', (req, res) => {
+  openTriviaDB.fetchCategories()
+    .then((categories) => {
+      res.send(categories);
+    })
+    .catch((err) => {
+      res.status(500).send('Error retrieving trivia categories');
+      console.error(err);
+    });
 });
 
 app.get('/games', (req, res) => {

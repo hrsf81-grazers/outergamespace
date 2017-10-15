@@ -7,19 +7,19 @@ import _ from 'underscore';
 const propTypes = {
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
   final: PropTypes.bool,
-  restartGame: PropTypes.func,
+  returnToLobby: PropTypes.func
 };
 
 const defaultProps = {
   final: false,
-  restartGame: () => {},
+  returnToLobby: () => {},
 };
 
 const updateUserScore = (username, gameScore) => (
   axios.post('/user', { username, gameScore })
 );
 
-const Scoreboard = ({ players, final, restartGame, returnToLobby }) => {
+const Scoreboard = ({ players, final, returnToLobby }) => {
   const sortedPlayers = _.sortBy(players, 'score').reverse();
   return (
     <div className="container-fluid gameBackground">
@@ -28,9 +28,13 @@ const Scoreboard = ({ players, final, restartGame, returnToLobby }) => {
           <div className="card-block">
             <div className="card-title presenterText mb-3">Players</div>
             <div className="list-group list-group-flush scoreboardList">
-              {sortedPlayers.map(player =>
-                <ScoreboardEntry player={player}/>
-              )}
+              {sortedPlayers.map((player) => {
+                if (final) {
+                  updateUserScore(player.username, player.score)
+                    .then(() => 'done');
+                }
+                return <ScoreboardEntry player={player} />;
+              })}
             </div>
           </div>
         </div>
@@ -38,7 +42,6 @@ const Scoreboard = ({ players, final, restartGame, returnToLobby }) => {
 
       <div className="screen-bottom">
         {final && <button onClick={returnToLobby} >Return to Lobby</button>}
-        {final && <button onClick={restartGame} >New Game</button>}
       </div>
     </div>
   )
