@@ -7,7 +7,8 @@ const DEFAULT_CONFIG = {
   noOfQuestions: '10',
   timePerQuestion: '20',
   maxPlayers: '6',
-  difficulty: 'all'
+  difficulty: 'any',
+  category: 'any'
 };
 
 const propTypes = {
@@ -26,7 +27,7 @@ const difficultyLevels = [
 class CreateRoom extends React.Component {
   constructor(props) {
     super(props);
-    this.state = Object.assign({}, DEFAULT_CONFIG, { errMsg: '' });
+    this.state = Object.assign({ categories: [{ id: -1, name: 'any' }] }, DEFAULT_CONFIG, { errMsg: '' });
 
     /* METHOD BINDING */
     this.onChangeInput = this.onChangeInput.bind(this);
@@ -36,9 +37,23 @@ class CreateRoom extends React.Component {
     this.getConfigObj = this.getConfigObj.bind(this);
   }
 
+  componentDidMount() {
+    fetch('/categories')
+      .then(res => res.json())
+      .then((categories) => {
+        this.setState({
+          categories: this.state.categories.concat(categories)
+        });
+      })
+      .catch(console.error);
+  }
+
   onChangeInput(event, stateName) {
     const newState = event.target.value;
-    if (newState === '' || !isNaN(newState) || stateName === 'difficulty') {
+    if (newState === ''
+        || !isNaN(newState)
+        || stateName === 'difficulty'
+        || stateName === 'category') {
       this.setState({
         [stateName]: newState,
       });
@@ -79,6 +94,9 @@ class CreateRoom extends React.Component {
     const difficultyOptions = difficultyLevels.map(level =>
       <option key={level} value={level}>{level}</option>
     );
+    const categories = this.state.categories.map(category =>
+      <option key={category.id} value={category}>{category.name}</option>
+    );
     return (
       <div className="container-fluid gameBackground">
         <div className="row align-items-center">
@@ -94,6 +112,14 @@ class CreateRoom extends React.Component {
                   placeholder="10"
                   onChange={e => this.onChangeInput(e, 'noOfQuestions')}>
                 </input>
+              </div>
+
+              <div className="form-group row">
+                <div className="input-group-addon presenterText ml-3">Category</div>
+                <select
+                  onChange={e => this.onChangeInput(e, 'category')}>
+                  {categories}
+                </select>
               </div>
 
               <div className="form-group row">
