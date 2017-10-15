@@ -24,8 +24,8 @@ body {
 
 .chatInput {
 	position: relative;
-	top: 840px;
 	z-index: 400;
+	margin-bottom: 5px;
 }
 
 .gameBackground {
@@ -115,12 +115,9 @@ body {
 	top: 27%;
 }
 
-
-
 .hidden {
 	display: none;
 }
-
 
 .informationText {
 	font-size: 30px;
@@ -198,7 +195,24 @@ body {
 .scoreboardList {
 	margin: 0 15 20 15;
 }
-  
+
 .hide {
   display: none;
+}
+
+.chatMessages {
+	font-family: 'Comfortaa';
+	font-size: 16px;
+	color: #ffffff;
+	flex-grow: 1;
+	margin-top: 5px;
+}
+
+.chatUsername {
+	font-weight: bolder;
+}
+
+.flex {
+	display: flex;
+	flex-direction: column;
 }

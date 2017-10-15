@@ -94,6 +94,13 @@ class Lobby extends React.Component {
   }
 
   render() {
+    const chatMessages = this.state.chatMessages.map(message =>
+      (<div className="list-group-item">
+        <div className="chatUsername">{message.username}</div>
+        <div>{message.text}</div>
+      </div>)
+    );
+
     return (
       <div className="container-fluid main-lobby">
         <img id="lobby-background" src="../../mars-surface.jpg" alt="mars-surface" className="animated zoomIn"/>
@@ -110,7 +117,10 @@ class Lobby extends React.Component {
               users={this.state.users}
               leaderboardRender={this.state.leaderboardRender}
             />
-            <div className={`col-sm-5 chat-window mr-3 ${this.state.chatPanelRender}`}>
+            <div className={`col-sm-5 chat-window mr-3 ${this.state.chatPanelRender} flex`}>
+              <div className="chatMessages">
+                {chatMessages}
+              </div>
               <div className="input-group chatInput">
                 <span className="input-group-addon" id="basic-addon3">{this.state.username}</span>
                 <input
