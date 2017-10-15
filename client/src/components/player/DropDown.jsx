@@ -16,17 +16,18 @@ class DropDown extends React.Component {
     return (
       <div>
         <p>
-          <button className="btn btn-outline-light ml-1 mt-3" type="button" data-toggle="collapse" data-target="#gameInformation" aria-expanded="false" aria-controls="gameInformation">
-            {this.props.title}'s Game'
+          <button className="btn btn-outline-light ml-1 mt-3 leaderboardText" type="button" data-toggle="collapse" data-target="#gameInformation" aria-expanded="false" aria-controls="gameInformation">
+            {this.props.title}'s Game
           </button>
         </p>
       <div className="collapse ml-1 mb-3" id="gameInformation">
         <div className="card list-group list-group-flush">
-         <p className="list-group-item"># Questions: {this.props.game.num_questions}</p>
-         <p className="list-group-item">Max Players: {this.props.game.max_players}</p>
-         <p className="list-group-item"># Players: {this.state.numPlayers}</p>
-         <p className="list-group-item">Room Code: {this.props.game.room_id}</p>
-         <button onClick={this.props.click} className="list-group-item joinButton">Join Game!</button>
+         <p className="list-group-item leaderboardText"># Questions: {this.props.game.num_questions}</p>
+         <p className="list-group-item leaderboardText">Max Players: {this.props.game.max_players}</p>
+         <p className="list-group-item leaderboardText">Number of Players: {this.props.game.num_players}</p>
+         <p className="list-group-item leaderboardText">Trivia Topic: {this.props.game.category}</p>
+         <p className="list-group-item leaderboardText">Game Difficulty: {this.props.game.difficulty}</p>
+         <button onClick={this.props.click} className="list-group-item joinButton leaderboardText">Join Game!</button>
         </div>
       </div>
       </div>

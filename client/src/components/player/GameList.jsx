@@ -64,7 +64,7 @@ class GameList extends React.Component {
         {gameListItems}
         <div>
           <button
-            className="btn btn-outline-light ml-1 mr-3"
+            className="btn btn-outline-light ml-1 mr-3 leaderboardText"
             onClick={this.props.createGame}
           >Create Game</button>
         </div>
