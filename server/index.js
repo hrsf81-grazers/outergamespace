@@ -37,11 +37,11 @@ app.use((req, res, next) => {
 /* ROUTE HANDLERS */
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(CLIENT_DIR, 'index_presenter.html'));
+  res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
 });
 
-app.get('/join', (req, res) => {
-  res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
+app.get('/host', (req, res) => {
+  res.sendFile(path.join(CLIENT_DIR, 'index_presenter.html'));
 });
 
 app.post('/login', (req, res) => {
