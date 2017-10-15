@@ -66,8 +66,6 @@ class GameListItem extends React.Component {
           // <p># Questions: {this.props.game.num_questions}</p>
           // <p>Max Players: {this.props.game.max_players}</p>
           // <p># Players: {this.state.numPlayers}</p>
-          // <p>Difficulty: {this.props.game.difficulty}</p>
-          // <p>Category: {this.props.game.category}</p>
         }
       </div>
     );
