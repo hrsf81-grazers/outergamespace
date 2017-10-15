@@ -23,9 +23,9 @@ body {
 }
 
 .chatInput {
-	position: relative;
-	top: 840px;
+	position: absolute;
 	z-index: 400;
+	bottom: 5px;
 }
 
 .gameBackground {
@@ -115,12 +115,9 @@ body {
 	top: 27%;
 }
 
-
-
 .hidden {
 	display: none;
 }
-
 
 .informationText {
 	font-size: 30px;
@@ -199,6 +196,25 @@ body {
 	margin: 0 15 20 15;
 }
 
+.hide {
+  display: none;
+}
+
+.chatMessages {
+	font-family: 'Comfortaa';
+	font-size: 16px;
+	color: #ffffff;
+	margin-top: 5px;
+}
+
+.chatUsername {
+	font-weight: bolder;
+}
+
+.input-group .form-control {
+	flex: 0.95 1 auto;
+}
+
 #gameInformation {
 	background-color: rgba(0, 0, 0, 0);
 	color: white;
@@ -207,3 +223,4 @@ body {
 .joinButton {
 	color:white;
 }
+

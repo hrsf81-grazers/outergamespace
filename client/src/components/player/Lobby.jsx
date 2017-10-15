@@ -21,12 +21,14 @@ class Lobby extends React.Component {
       gamePanelRender: 'hidden',
       leaderboardRender: 'hidden',
       chatInput: '',
-      users: []
+      users: [],
+      chatMessages: []
     };
 
     this.chatHandler = this.chatHandler.bind(this);
     this.joinGame = this.joinGame.bind(this);
     this.getAllUsers = this.getAllUsers.bind(this);
+    this.getChatMessages = this.getChatMessages.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +40,7 @@ class Lobby extends React.Component {
       });
     }, 600);
     this.getAllUsers();
+    this.getChatMessages();
   }
 
   getAllUsers() {
@@ -48,6 +51,17 @@ class Lobby extends React.Component {
         });
       })
       .catch(err => console.error(err));
+  }
+
+  getChatMessages() {
+    fetch('/messages')
+      .then(response => response.json())
+      .then((messages) => {
+        this.setState({
+          chatMessages: messages
+        });
+      })
+      .catch(console.error);
   }
 
   checkSubmit(event) {
@@ -80,6 +94,13 @@ class Lobby extends React.Component {
   }
 
   render() {
+    const chatMessages = this.state.chatMessages.map(message =>
+      (<div className="list-group-item">
+        <div className="chatUsername">{message.username}</div>
+        <div>{message.text}</div>
+      </div>)
+    );
+
     return (
       <div className="container-fluid main-lobby">
         <img id="lobby-background" src="../../mars-surface.jpg" alt="mars-surface" className="animated zoomIn"/>
@@ -97,6 +118,9 @@ class Lobby extends React.Component {
               leaderboardRender={this.state.leaderboardRender}
             />
             <div className={`col-sm-5 chat-window mr-3 ${this.state.chatPanelRender}`}>
+              <div className="chatMessages">
+                {chatMessages}
+              </div>
               <div className="input-group chatInput">
                 <span className="input-group-addon" id="basic-addon3">{this.state.username}</span>
                 <input

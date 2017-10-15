@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const db = require('../db');
 const openTriviaDB = require('../helpers/openTriviaDb.js');
+const chat = require('./stubChatData');
 
 const app = express();
 const server = require('http').Server(app);
@@ -136,6 +137,10 @@ app.get('/game/:roomId', (req, res) => {
       res.status(500).send('Error retrieving game');
       console.error(err);
     });
+});
+
+app.get('/messages', (req, res) => {
+  res.send(chat.messages);
 });
 
 // Export for testing
