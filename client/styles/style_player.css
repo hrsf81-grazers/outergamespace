@@ -214,3 +214,13 @@ body {
 .input-group .form-control {
 	flex: 0.95 1 auto;
 }
+
+#gameInformation {
+	background-color: rgba(0, 0, 0, 0);
+	color: white;
+}
+
+.joinButton {
+	color:white;
+}
+
