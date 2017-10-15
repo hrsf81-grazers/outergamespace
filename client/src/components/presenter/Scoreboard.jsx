@@ -28,9 +28,13 @@ const Scoreboard = ({ players, final, returnToLobby }) => {
           <div className="card-block">
             <div className="card-title presenterText mb-3">Players</div>
             <div className="list-group list-group-flush scoreboardList">
-              {sortedPlayers.map(player =>
-                <ScoreboardEntry player={player}/>
-              )}
+              {sortedPlayers.map((player) => {
+                if (final) {
+                  updateUserScore(player.username, player.score)
+                    .then(() => 'done');
+                }
+                return <ScoreboardEntry player={player} />;
+              })}
             </div>
           </div>
         </div>
