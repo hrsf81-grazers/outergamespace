@@ -149,6 +149,7 @@ class Host extends React.Component {
           players={finalScores}
           final
           returnToLobby={this.returnToLobby}
+          username={this.props.username}
         />
       );
     } else if (screen === 'lobby') {
