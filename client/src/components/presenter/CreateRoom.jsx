@@ -7,6 +7,7 @@ const DEFAULT_CONFIG = {
   noOfQuestions: '10',
   timePerQuestion: '20',
   maxPlayers: '6',
+  difficulty: 'all'
 };
 
 const propTypes = {
@@ -50,6 +51,7 @@ class CreateRoom extends React.Component {
       noOfQuestions: this.getConfig('noOfQuestions'),
       timePerQuestion: this.getConfig('timePerQuestion'),
       maxPlayers: this.getConfig('maxPlayers'),
+      difficulty: this.getConfig('difficulty')
     };
   }
 
@@ -72,10 +74,10 @@ class CreateRoom extends React.Component {
           <div className={`card col-sm-5 createRoom animated slideInLeft`}>
             <div className="card-body">
               <div className="card-title presenterText createTitle">Game Settings</div>
-    
+
               <div className="form-group row">
                 <div className="input-group-addon presenterText ml-3">No of Questions</div>
-                <input                   
+                <input
                   type="text"
                   value={noOfQuestions}
                   placeholder="10"
@@ -85,7 +87,7 @@ class CreateRoom extends React.Component {
 
               <div className="form-group row">
                 <div className="input-group-addon presenterText ml-3">Time per Question (Seconds)</div>
-                <input                   
+                <input
                   type="text"
                   value={timePerQuestion}
                   placeholder="20"
@@ -95,7 +97,7 @@ class CreateRoom extends React.Component {
 
               <div className="form-group row">
                 <div className="input-group-addon presenterText ml-3">Maximum No of Players</div>
-                <input                   
+                <input
                   type="text"
                   value={maxPlayers}
                   placeholder="6"
@@ -104,7 +106,7 @@ class CreateRoom extends React.Component {
               </div>
 
               <button onClick={this.createRoom} className="btn btn-transparent-light presenterText">Create Room</button>
-    
+
             </div>
           </div>
         </div>
