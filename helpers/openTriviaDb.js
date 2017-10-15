@@ -18,8 +18,11 @@ openTriviaDB.fetchCategories = () => {
     .catch(console.error);
 };
 
-openTriviaDB.fetchQuestions = (num, type = 'multiple') => {
-  const url = `${OPEN_TRIVIA_DB_URL}/api.php?amount=${num}&type=${type}`;
+openTriviaDB.fetchQuestions = (gameConfig, type = 'multiple') => {
+  const { noOfQuestions, difficulty, category } = gameConfig;
+  const difficultyFilter = difficulty === 'any' ? '' : `&difficulty=${difficulty}`;
+  const categoryFilter = category.id === -1 ? '' : `&category=${category.id}`;
+  const url = `${OPEN_TRIVIA_DB_URL}/api.php?amount=${noOfQuestions}&type=${type}${difficultyFilter}${categoryFilter}`;
   return new Promise((resolve, reject) => {
     request(url, (err, res, body) => {
       if (err) reject(err);
