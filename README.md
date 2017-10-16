@@ -37,7 +37,7 @@ The steps to set-up a game is as follows:
 1. All players sign in and reach the lobby of a game.
 1. Someone initiates a game by selecting 'Create Game' from the main lobby.
 1. Other players in the lobby can see when a new game is available and choose to join it if max players has not been reached for that game.
-1. Accepted players will now by shown on the presenter screen.
+1. Accepted players will now be shown on the presenter screen.
 1. The Host can now start the game.
 1. The Host and Players will now display questions on the screen with a countdown timer.
 1. Each Player can now submit and answer to the question.
